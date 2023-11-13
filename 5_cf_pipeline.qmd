@@ -1,0 +1,173 @@
+---
+title: "5_cf_pipeline"
+format: html
+---
+
+A quick pipeline of counterfactuals to explore
+
+```{r}
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(raster)
+theme_set(theme_minimal())
+```
+
+
+```{r}
+suppressWarnings({
+  fire_origin_sf <- read_sf(
+  here::here("data/FIRE"), 
+  layer = "FIRE_HISTORY_ORIGIN"
+) |>
+  filter(FIRE_START >= "2000-01-01", !st_is_empty(geometry))
+})
+fire_origin_coords <- st_coordinates(fire_origin_sf) |>
+  as_tibble() |>
+  bind_cols(
+    date = fire_origin_sf$FIRE_START,
+    cause = fire_origin_sf$CAUSE
+  ) |>
+  arrange(date)
+```
+
+```{r}
+fire_origin_coords$cause |> unique() |> stringr::str_split(",",simplify = TRUE) -> xx
+
+cause_list <- c(
+  c('RELIGHT - BURNING OFF','RELIGHT - PRESCRIBED FIRE','RELIGHT - WILDFIRE'),
+  c("CAMPFIRE, BARBEQUE",
+    "FIREWORKS",
+    "UNATTENDED CAMPFIRE - CONTAINED WITHIN BOUNDARY",
+    'BURNING BUILDING',
+    'BURNING HOUSE, STOVE, FLUE',
+    'BURNING VEHICLE, MACHINE',
+    'EXHAUST, CHAINSAW',
+    'EXHAUST, OTHER',
+    'PIPE, CIGARETTE, MATCH',
+    'SNIGGING, HAULING'),
+  c('BURNING OFF (DEPARTMENTAL PRESCRIBED)',
+    'BURNING OFF, STUBBLE, GRASS, SCRUB',
+    'BURNING OFF, WINDROW, HEAP',
+    'WASTE DISPOSAL, DOMESTIC',
+    'WASTE DISPOSAL, INDUSTRIAL, SAWMILL, TIP'), 
+  "DELIBERATE LIGHTING (MALICIOUS)", 
+  "LIGHTNING"
+  ) 
+xx[!stringr::str_trim(xx) %in% stringr::str_trim(stringr::str_split(cause_list, ",", simplify = TRUE))]
+```
+
+
+```{r}
+fire_origin_cause <- fire_origin_coords %>%
+  mutate(new_cause = 'other') %>%
+  mutate(new_cause = ifelse(cause == "LIGHTNING", "lightning", new_cause)) %>%
+  mutate(new_cause = ifelse(cause == "DELIBERATE LIGHTING (MALICIOUS)", "arson", new_cause)) %>%
+  mutate(new_cause = ifelse(cause %in% c('BURNING OFF (DEPARTMENTAL PRESCRIBED)',
+                                         'BURNING OFF, STUBBLE, GRASS, SCRUB',
+                                         'BURNING OFF, WINDROW, HEAP',
+                                         'WASTE DISPOSAL, DOMESTIC',
+                                         'WASTE DISPOSAL, INDUSTRIAL, SAWMILL, TIP'), 'burning_off_human', new_cause)) %>%
+  mutate(new_cause = ifelse(cause %in% c("CAMPFIRE, BARBEQUE",
+                                         "FIREWORKS",
+                                         "UNATTENDED CAMPFIRE - CONTAINED WITHIN BOUNDARY",
+                                         'BURNING BUILDING',
+                                         'BURNING HOUSE, STOVE, FLUE',
+                                         'BURNING VEHICLE, MACHINE',
+                                         'EXHAUST, CHAINSAW',
+                                         'EXHAUST, OTHER',
+                                         'PIPE, CIGARETTE, MATCH',
+                                         'SNIGGING, HAULING'), "accidental_human", new_cause)) %>%
+  # TODO: Add this
+  mutate(new_cause = ifelse(stringr::str_detect(cause, "RAILWAY|TRAIN|POWER TRANSMISSION"), "accidental_human", new_cause)) %>%
+  mutate(new_cause = ifelse(cause %in% c('RELIGHT - BURNING OFF',
+                                         'RELIGHT - PRESCRIBED FIRE',
+                                         'RELIGHT - WILDFIRE'), 'relight', new_cause))
+
+fire_origin_cause$new_cause[which(is.na(fire_origin_cause$new_cause))] <- 'other'
+```
+
+```{r}
+library(lubridate)
+training <- fire_origin_cause
+training <- training %>%
+  filter(!cause %in% c("BURNING BUILDING",
+                       "WASTE DISPOSAL, INDUSTRIAL, SAWMILL, TIP",
+                       "WASTE DISPOSAL, DOMESTIC",
+                       "BURNING VEHICLE, MACHINE",
+                       "BURNING BUILDING")) %>%
+  filter(new_cause != "other") %>%
+  filter(new_cause != "relight")
+
+training <- mutate(training,
+                   year = factor(year(date)),
+                   month = factor(month(date), levels = c(10,11,12,1,2,3)),
+                   day = factor(day(date), levels = c(1:31)),
+                   wod = factor(wday(date), levels = c(1:7)))
+
+training <- filter(training, month %in% c(10,11,12,1,2,3))
+
+training <- na.omit(training)
+
+training <- mutate(training, new_cause = ifelse(new_cause == "accidental_human", "accident", new_cause)) %>%
+  mutate(new_cause = ifelse(new_cause == "burning_off_human", "burning_off", new_cause)) %>%
+  mutate(new_cause = factor(new_cause))
+
+training <- na.omit(training)
+
+training <- mutate(training, cause_raw = cause, cause = new_cause)
+training <- mutate(training,
+                   cause = forcats::fct_relevel(cause,
+                                       "lightning",
+                                       "accident",
+                                       "arson",
+                                       "burning_off"))
+
+training <- na.omit(training)
+```
+
+```{r}
+library(randomForest)
+rfmodel <- randomForest(cause ~ ., data = training |> dplyr::select(X, Y, year, month, day, wod, cause))
+```
+
+```{r}
+rfmodel
+```
+
+```{r}
+list(data = training, model = rfmodel) -> state
+saveRDS(state, "cf_poc_state.rds")
+```
+
+```{r}
+library(counterfactuals)
+library(iml)
+predictor = Predictor$new(rfmodel, type = "prob")
+```
+
+```{r}
+x_interest <- training[1, ]
+predictor$predict(x_interest)
+```
+
+
+```{r}
+wi_classif = WhatIfClassif$new(predictor, n_counterfactuals = 5L)
+```
+
+```{r}
+cfactuals = wi_classif$find_counterfactuals(
+  x_interest, desired_class = "accident", desired_prob = c(0.5, 1)
+)
+```
+
+```{r}
+cfactuals$data
+```
+
+```{r}
+x_interest
+```
+
+

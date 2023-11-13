@@ -1,0 +1,105 @@
+---
+title: "6_weather_data_collection"
+format: html
+---
+
+```{r}
+library(weatherOz)
+library(tidyverse)
+```
+
+The weatherOz package gives access to the DPIRD data portal and the SILO data portal. From these two data portals, the SILO data portal seems to be the most reliable data portal that gives weather data for all of Australia while the DPIRD dataset simply gives weather data for western australia (source: 
+
+> Data are sourced from from the Western Australian Department of Primary Industries and Regional Development (DPIRD) and the Scientific Information for Land Owners (SILO) API endpoints and the Australian Government Bureau of Meteorology’s (BOM) FTP server.
+
+> SILO data is available from Queensland’s Long Paddock initiative (Jeffery et al. 2001) and are spatially and temporally complete, covering all Australia and few nearby islands (112 to 154, -10 to -44), with resolution 0.05° longitude by 0.05° latitude (approximately 5 km × 5 km).
+
+)
+
+For SILO datasets the weatherOz package has four functions.
+
+* `get_data_drill()`, which returns weather data from SILO’s 0.05 x 0.05 degrees interpolated, gridded weather dataset;
+* `get_patched_point()`, which returns weather data from a given BOM weather station (a point) in the SILO database where missing values are interpolated (patched);
+
+The other two functions are variants of the above which gives out data in APSIM format.
+
+From the above two it seems `get_data_drill` is the easiest option as the `get_patched_point` requires us to detect the nearby station.
+
+```{r}
+#| echo: false
+#| eval: false
+
+find_nearby_stations(
+  longitude = training$X[1],
+  latitude = training$Y[1],
+  distance_km = 50,
+  api_key = "janithcwanni@gmail.com",
+  which_api = "silo"
+) -> a
+
+```
+
+If we take the first take the first sample data point from the training set and try to obtain the weather data what would we get? There are several rows in the returning dataset with only the first row containing meaningful data. THe variables that we need from a point are as follows.
+
+```{r}
+needed_vars <- c(
+  "max_temp",
+  "min_temp",
+  "rh_tmax",
+  "rh_tmin",
+  "radiation"
+)
+```
+
+```{r}
+data <- readRDS("cf_poc_state.rds")
+training <- data$data
+```
+
+
+```{r}
+get_data_drill(
+  training$X[1],
+  training$Y[1],
+  start_date = training$date[1],
+  end_date = training$date[1],
+  values = needed_vars,
+  api_key = "janithcwanni@gmail.com"
+) -> b
+b[1, ] |> glimpse()
+```
+
+
+Currently there are `r nrow(training |> distnct(X, Y, date))` rows of location and date combinations. We can try to run and collect all the data for these and save these for later use.
+
+```{r}
+train_w_weather <- map_dfr(seq_len(nrow(training |> head(100))), function(i){
+  row <- training[i, ]
+  weather_data <- get_data_drill(
+    row$X,
+    row$Y,
+    start_date = row$date,
+    end_date = row$date,
+    values = needed_vars,
+    api_key = "janithcwanni@gmail.com"
+  )
+  cbind(row, weather_data[1,])
+})
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+
+get_patched_point(
+  081124,
+  start_date = training$date[1],
+  end_date = training$date[1],
+  values = "all",
+  api_key = "janithcwanni@gmail.com"
+) -> c
+```
+
+
+

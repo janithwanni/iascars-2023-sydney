@@ -1,0 +1,76 @@
+---
+title: "Final report"
+---
+
+
+```{r}
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(raster)
+theme_set(theme_minimal())
+```
+
+
+```{r}
+fire_origin_sf <- read_sf(
+  here::here("data/FIRE"), 
+  layer = "FIRE_HISTORY_ORIGIN"
+) |>
+  filter(FIRE_START >= "2000-01-01", !st_is_empty(geometry))
+
+fire_origin_coords <- st_coordinates(fire_origin_sf) |>
+  as_tibble() |>
+  bind_cols(
+    date = fire_origin_sf$FIRE_START,
+    cause = fire_origin_sf$CAUSE
+  ) |>
+  arrange(date)
+```
+
+
+```{r}
+forest_img <- raster(
+  here::here("data/aus_for18_publish/aus_for18_publish/aus_for18/z001001.adf")
+)
+```
+
+What we are doing here is basically to get the coordinates of the fire origins and then select the index of the dataset that gives the forest coverage of those points with the same coordinate system.
+
+```{r}
+fire_points <- SpatialPoints(
+  st_coordinates(fire_origin_sf),
+  proj4string=CRS("EPSG:7844")
+) |>
+  spTransform(projection(forest_img))
+
+fire_forest_index <- extract(forest_img, fire_points)
+```
+
+
+```{r}
+forest_info <- levels(forest_img) |>
+  as.data.frame() |>
+  as_tibble()
+forest_info <- forest_info[fire_forest_index, ]
+```
+
+
+```{r}
+data <- fire_origin_coords |> bind_cols(forest_info)
+```
+
+
+```{r}
+library(rnoaa)
+
+station_data <- ghcnd_stations()
+
+nearby_stations <-  meteo_nearby_stations(
+  lat_lon_df = fire_origin_coords |> 
+    dplyr::select(longitude = X, latitude = Y),
+  station_data = station_data,
+  radius = 10
+)
+```
+

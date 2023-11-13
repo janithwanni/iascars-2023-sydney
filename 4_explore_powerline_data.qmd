@@ -1,0 +1,35 @@
+---
+title: "Exploring powerline data"
+---
+
+
+```{r}
+library(sf)
+powerline_data <- read_sf(here::here("data/Order_20G552/ll_gda2020//esrishape/whole_of_dataset//victoria/VMFEAT/"))
+```
+
+
+```{r}
+# powerline_coords <- st_coordinates(powerline_data)
+```
+
+
+```{r}
+library(tidyverse)
+# ggplot(as_tibble(powerline_coords)) + geom_line(aes(x = X, y = Y,group = L1))
+```
+
+
+```{r}
+library(strayr)
+ausmap <- strayr::read_absmap("sa32021")
+```
+
+```{r}
+ausmap |> 
+  filter(gcc_name_2021 %in% c("Greater Melbourne", "Migratory - Offshore - Shipping (Vic.)", "No usual address (Vic.)")) |> 
+  ggplot() + 
+  geom_sf(aes(geometry = geometry)) + 
+  geom_sf(data = powerline_data, aes(geometry = geometry))
+```
+

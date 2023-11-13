@@ -1,0 +1,36 @@
+---
+title: "Explore forest map"
+---
+
+```{r}
+library(raster)
+forest_raster <- raster(
+  here::here("data/aus_for18_publish/aus_for18_publish/aus_for18/z001001.adf"))
+forest_raster |> plot()
+```
+
+
+```{r}
+list.files(here::here("data/aus_for18_publish/aus_for18_publish/aus_for18"), pattern = "*.adf") |> 
+  purrr::walk(function(.x) {
+    plot(raster(here::here("data/aus_for18_publish/aus_for18_publish/aus_for18", .x)))
+    title(main = .x)
+  })
+```
+
+
+```{r}
+raster_ls <- list.files(
+  here::here("data/aus_for18_publish/aus_for18_publish/aus_for18"),
+  pattern = "*.adf"
+) |>
+  purrr::map(~raster(
+    here::here("data/aus_for18_publish/aus_for18_publish/aus_for18", .x)
+  ))
+
+outer(raster_ls, raster_ls, function(x,y) {
+  purrr::map2_lgl(x,y, function(.x, .y) {
+    compareRaster(.x, .y)
+  })
+})
+```

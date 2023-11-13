@@ -1,0 +1,109 @@
+---
+title: "Compare Actual data and predicted data"
+---
+
+
+```{r}
+library(readr)
+library(sf)
+library(dplyr)
+
+read_csv("data/prediction/prediction_2019-2020_simulation.csv") -> a
+read_csv("data/prediction/prediction_2019-2020.csv") -> b
+read_csv("data/prediction/predict_x.csv") -> c
+```
+
+
+
+```{r}
+fire_origin_sf <- read_sf(
+  here::here("data/FIRE"), 
+  layer = "FIRE_HISTORY_ORIGIN"
+) |>
+  filter(FIRE_START >= "2000-01-01", !st_is_empty(geometry))
+
+fire_origin_coords <- st_coordinates(fire_origin_sf) |>
+  as_tibble() |>
+  bind_cols(
+    date = fire_origin_sf$FIRE_START,
+    cause = fire_origin_sf$CAUSE
+  ) |>
+  arrange(date)
+```
+
+
+```{r}
+# It's 2 am, this is patrick's code, not good, needs to be cleaner, cant help atm
+fire_origin_causes <- fire_origin_coords |>
+  mutate(new_cause = 'other') |>
+  mutate(new_cause = ifelse(cause == "LIGHTNING", "lightning", new_cause)) |>
+  mutate(new_cause = ifelse(cause == "DELIBERATE LIGHTING (MALICIOUS)", "arson", new_cause)) %>%
+  mutate(new_cause = ifelse(cause %in% c('BURNING OFF (DEPARTMENTAL PRESCRIBED)',
+                                         'BURNING OFF, STUBBLE, GRASS, SCRUB',
+                                         'BURNING OFF, WINDROW, HEAP',
+                                         'WASTE DISPOSAL, DOMESTIC',
+                                         'WASTE DISPOSAL, INDUSTRIAL, SAWMILL, TIP'), 'burning_off_human', new_cause)) %>%
+  mutate(new_cause = ifelse(cause %in% c("CAMPFIRE, BARBEQUE",
+                                         "FIREWORKS",
+                                         "UNATTENDED CAMPFIRE - CONTAINED WITHIN BOUNDARY",
+                                         'BURNING BUILDING',
+                                         'BURNING HOUSE, STOVE, FLUE',
+                                         'BURNING VEHICLE, MACHINE',
+                                         'EXHAUST, CHAINSAW',
+                                         'EXHAUST, OTHER',
+                                         'PIPE, CIGARETTE, MATCH',
+                                         'SNIGGING, HAULING'), "accidental_human", new_cause)) %>%
+  mutate(new_cause = ifelse(cause %in% c('RELIGHT - BURNING OFF',
+                                         'RELIGHT - PRESCRIBED FIRE',
+                                         'RELIGHT - WILDFIRE'), 'relight', new_cause))
+
+# TODO: Check the labels accidents and accidental_human
+
+fire_origin_causes$new_cause[which(is.na(fire_origin_causes$new_cause))] <- 'other'
+```
+
+
+```{r}
+actual <- fire_origin_causes |>
+  filter(date >= min(b$time)) |>
+  select(-cause)
+predicted <- b |> select(lon, lat, time, cause)
+```
+
+
+```{r}
+library(cubble)
+
+cubble()
+```
+
+
+```{r}
+library(ggplot2)
+theme_set(theme_minimal())
+predicted |> 
+  filter(time >= "2019-01-01", time <= "2019-12-31") |>
+  ggplot(aes(x = lon, y = lat, color = cause)) + 
+  geom_point()
+
+actual |> 
+  filter(date >= "2019-10-01", date <= "2019-10-31") |>
+  ggplot(aes(x = X, y = Y, color = new_cause)) +
+  geom_point()
+```
+
+
+
+```{r}
+bind_rows(
+  predicted |> 
+    filter(time >= "2020-01-01", time <= "2020-12-31") |>
+    mutate(origin = "predicted", X = lon, Y = lat),
+  actual |> 
+    filter(date >= "2020-01-01", date <= "2020-12-31") |>
+    mutate(origin = "actual", cause = new_cause )
+) |> 
+  ggplot(aes(x = X, y = Y,color = origin)) +
+  geom_point(alpha = 0.6) +
+  facet_wrap(~cause, scale = "free")
+```

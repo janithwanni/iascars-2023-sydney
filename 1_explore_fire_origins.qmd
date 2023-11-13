@@ -1,0 +1,36 @@
+---
+title: "Explore fire origins"
+---
+
+```{r}
+library(sf)
+library(dplyr)
+library(ggplot2)
+theme_set(theme_minimal())
+```
+
+```{r}
+fire_origin_sf <- read_sf(
+  here::here("data/FIRE"), 
+  layer = "FIRE_HISTORY_ORIGIN"
+) |>
+  filter(FIRE_START >= "2000-01-01", !st_is_empty(geometry))
+
+fire_origin_coords <- st_coordinates(fire_origin_sf) |>
+  as_tibble() |>
+  bind_cols(
+    date = fire_origin_sf$FIRE_START,
+    cause = fire_origin_sf$CAUSE
+  ) |>
+  arrange(date)
+
+fire_origin_coords |>
+  ggplot(aes(x = X, y = Y)) + 
+  geom_point() +
+  coord_equal() 
+
+fire_origin_coords |>
+  mutate(year = lubridate::year(date), month = lubridate::month(date)) |>
+  count(year)
+```
+
