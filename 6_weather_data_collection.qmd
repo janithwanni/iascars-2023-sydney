@@ -47,7 +47,8 @@ needed_vars <- c(
   "min_temp",
   "rh_tmax",
   "rh_tmin",
-  "radiation"
+  "radiation",
+  "rain"
 )
 ```
 
@@ -73,6 +74,9 @@ b[1, ] |> glimpse()
 Currently there are `r nrow(training |> distnct(X, Y, date))` rows of location and date combinations. We can try to run and collect all the data for these and save these for later use.
 
 ```{r}
+#| echo: false
+#| eval: false
+
 train_w_weather <- map_dfr(seq_len(nrow(training |> head(100))), function(i){
   row <- training[i, ]
   weather_data <- get_data_drill(
@@ -87,6 +91,31 @@ train_w_weather <- map_dfr(seq_len(nrow(training |> head(100))), function(i){
 })
 ```
 
+```{r}
+walk(seq_len(nrow(training)), function(i) {
+  if(!file.exists(here::here("data/weathers/", paste0(i,".csv")))) {
+    row <- training[i, ]
+    weather_data <- get_data_drill(
+      row$X,
+      row$Y,
+      start_date = row$date,
+      end_date = row$date,
+      values = needed_vars,
+      api_key = "janithcwanni@gmail.com"
+    )
+    write_csv(weather_data, here::here("data/weathers/", paste0(i,".csv")))
+  }
+})
+
+imap_dfr(list.files(here::here("data/weathers/")), function(.x, .y) {
+  read_csv(here::here("data/weathers/", .x), show_col_types = FALSE) |> 
+  mutate(id = .y, .before = 1)
+}) -> ax
+
+ax |> group_by(id) |> drop_na() |> ungroup()
+
+saveRDS(ax, "weather_data.rds")
+```
 
 ```{r}
 #| echo: false
