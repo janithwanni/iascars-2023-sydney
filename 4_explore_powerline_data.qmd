@@ -30,6 +30,20 @@ ausmap |>
   filter(gcc_name_2021 %in% c("Greater Melbourne", "Migratory - Offshore - Shipping (Vic.)", "No usual address (Vic.)")) |> 
   ggplot() + 
   geom_sf(aes(geometry = geometry)) + 
-  geom_sf(data = powerline_data, aes(geometry = geometry))
+  geom_sf(data = powerline_data |> slice_head(n = 2000), aes(geometry = geometry))
 ```
 
+
+```{r}
+powerline_filtered <- powerline_data |> filter(FEATSUBTYP != "power distribution lv", VOLTAGE != "6.6 KV", VOLTAGE != "11 KV", VOLTAGE != "22 KV")
+```
+
+
+```{r}
+# Long computation!
+st_distance(training_sf, powerline_filtered) -> aa
+
+maa <- aa |> apply(1, min)
+
+saveRDS(maa, "min_power_dist_filt.rds")
+```
