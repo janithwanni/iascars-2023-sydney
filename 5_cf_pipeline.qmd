@@ -127,8 +127,15 @@ training <- na.omit(training)
 ```
 
 ```{r}
+wt <- readRDS("weather_data.rds")
+maa <- readRDS("min_power_dist_filt.rds")
+training$min_power_dist <- maa / 1000 # kilometres
+train_w_covars <- training |> mutate(id = row_number(), .before = 1) |> left_join(wt |> dplyr::select(-c(date, year, month, day)), by = "id") |> mutate(elev_m = as.numeric(str_replace(elev_m, " m", "")))
+```
+
+```{r}
 library(randomForest)
-rfmodel <- randomForest(cause ~ ., data = training |> dplyr::select(X, Y, year, month, day, wod, cause))
+rfmodel <- randomForest(cause ~ ., data = train_w_covars |> dplyr::select(X, Y, year, month, day, wod, cause, min_power_dist, elev_m, air_tmax, air_tmin, radiation, rainfall, rh_tmax, rh_tmin))
 ```
 
 ```{r}
