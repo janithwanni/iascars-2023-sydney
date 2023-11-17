@@ -1,6 +1,6 @@
 # 29.08.2023
 
-I will first download the fire origin data. Go to the link [https://discover.data.vic.gov.au/dataset/fire-origins-current-and-historical5](https://discover.data.vic.gov.au/dataset/fire-origins-current-and-historical5) and select Explore on the SHP file and then Click add to cart and then when downloading form the cart use GDA2020 as the projection. Apparently Australia is moving 7cms every year and since 1994 (GDA94) the difference is 1.8 metres. So I created an account and I made the order and I got an email from them.
+I will first download the fire origin data. Go to the link [https://discover.data.vic.gov.au/dataset/fire-origins-current-and-historical](https://discover.data.vic.gov.au/dataset/fire-origins-current-and-historical) and select Explore on the SHP file and then Click add to cart and then when downloading form the cart use GDA2020 as the projection. Apparently Australia is moving 7cms every year and since 1994 (GDA94) the difference is 1.8 metres. So I created an account and I made the order and I got an email from them.
 
 The downloaded shp file was only 1MB which is suspicious.
 
