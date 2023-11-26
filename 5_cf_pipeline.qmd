@@ -9,10 +9,13 @@ A quick pipeline of counterfactuals to explore
 library(sf)
 library(dplyr)
 library(ggplot2)
+library(tidyverse)
+library(lubridate)
 library(raster)
 theme_set(theme_minimal())
 ```
 
+We are selecting only the fires from 2000 onwards. 
 
 ```{r}
 suppressWarnings({
@@ -22,6 +25,7 @@ suppressWarnings({
 ) |>
   filter(FIRE_START >= "2000-01-01", !st_is_empty(geometry))
 })
+
 fire_origin_coords <- st_coordinates(fire_origin_sf) |>
   as_tibble() |>
   bind_cols(
@@ -29,37 +33,49 @@ fire_origin_coords <- st_coordinates(fire_origin_sf) |>
     cause = fire_origin_sf$CAUSE
   ) |>
   arrange(date)
+
+weather_data <- readRDS("weather_gridded_data.rds")
+min_power_dist <- readRDS("min_dist_data.rds")
 ```
 
-```{r}
-fire_origin_coords$cause |> unique() |> stringr::str_split(",",simplify = TRUE) -> xx
+Categorization of causes
 
-cause_list <- c(
-  c('RELIGHT - BURNING OFF','RELIGHT - PRESCRIBED FIRE','RELIGHT - WILDFIRE'),
-  c("CAMPFIRE, BARBEQUE",
-    "FIREWORKS",
-    "UNATTENDED CAMPFIRE - CONTAINED WITHIN BOUNDARY",
-    'BURNING BUILDING',
-    'BURNING HOUSE, STOVE, FLUE',
-    'BURNING VEHICLE, MACHINE',
-    'EXHAUST, CHAINSAW',
-    'EXHAUST, OTHER',
-    'PIPE, CIGARETTE, MATCH',
-    'SNIGGING, HAULING'),
-  c('BURNING OFF (DEPARTMENTAL PRESCRIBED)',
-    'BURNING OFF, STUBBLE, GRASS, SCRUB',
-    'BURNING OFF, WINDROW, HEAP',
-    'WASTE DISPOSAL, DOMESTIC',
-    'WASTE DISPOSAL, INDUSTRIAL, SAWMILL, TIP'), 
-  "DELIBERATE LIGHTING (MALICIOUS)", 
-  "LIGHTNING"
-  ) 
-xx[!stringr::str_trim(xx) %in% stringr::str_trim(stringr::str_split(cause_list, ",", simplify = TRUE))]
+1. lightning : 'LIGHTNING'
+2. arson: 'DELIBERATE LIGHTING (MALICIOUS)'
+3. burning_off_human : 
 ```
+  'BURNING OFF (DEPARTMENTAL PRESCRIBED)',
+  'BURNING OFF, STUBBLE, GRASS, SCRUB',
+  'BURNING OFF, WINDROW, HEAP',
+  'WASTE DISPOSAL, DOMESTIC',
+  'WASTE DISPOSAL, INDUSTRIAL, SAWMILL, TIP'
+```
+4. accidental_human
+```
+  "CAMPFIRE, BARBEQUE",
+  "FIREWORKS",
+  "UNATTENDED CAMPFIRE - CONTAINED WITHIN BOUNDARY",
+  'BURNING BUILDING',
+  'BURNING HOUSE, STOVE, FLUE',
+  'BURNING VEHICLE, MACHINE',
+  'EXHAUST, CHAINSAW',
+  'EXHAUST, OTHER',
+  'PIPE, CIGARETTE, MATCH',
+  'SNIGGING, HAULING'
+  RAILWAY|TRAIN|POWER TRANSMISSION
+```
+5. relight
+```
+  'RELIGHT - BURNING OFF',
+  'RELIGHT - PRESCRIBED FIRE',
+  'RELIGHT - WILDFIRE'
+```
+6. other : by default and if is na
+
 
 
 ```{r}
-fire_origin_cause <- fire_origin_coords %>%
+data <- fire_origin_coords %>%
   mutate(new_cause = 'other') %>%
   mutate(new_cause = ifelse(cause == "LIGHTNING", "lightning", new_cause)) %>%
   mutate(new_cause = ifelse(cause == "DELIBERATE LIGHTING (MALICIOUS)", "arson", new_cause)) %>%
@@ -78,73 +94,78 @@ fire_origin_cause <- fire_origin_coords %>%
                                          'EXHAUST, OTHER',
                                          'PIPE, CIGARETTE, MATCH',
                                          'SNIGGING, HAULING'), "accidental_human", new_cause)) %>%
-  # TODO: Add this
   mutate(new_cause = ifelse(stringr::str_detect(cause, "RAILWAY|TRAIN|POWER TRANSMISSION"), "accidental_human", new_cause)) %>%
   mutate(new_cause = ifelse(cause %in% c('RELIGHT - BURNING OFF',
                                          'RELIGHT - PRESCRIBED FIRE',
-                                         'RELIGHT - WILDFIRE'), 'relight', new_cause))
-
-fire_origin_cause$new_cause[which(is.na(fire_origin_cause$new_cause))] <- 'other'
+                                         'RELIGHT - WILDFIRE'), 'relight', new_cause)) |>
+  replace_na(list(new_cause = 'other')) |> 
+  mutate(new_cause = factor(new_cause)) |>
+  mutate(
+    year = year(date),
+    month = month(date),
+    day = day(date),
+    wod = wday(date)
+  ) |>
+  mutate(
+    year = factor(year),
+    month = factor(month, levels = c(1:12)),
+    day = factor(day, levels = c(1:31)),
+    wod = factor(wod, levels = c(1:7))
+  ) |>
+  mutate(
+    col = round(X, 4),
+    row = round(Y, 4)
+  ) |> 
+  left_join(weather_data |> dplyr::select(col, row, date, air_tmax:rh_tmin_source), by = c("col", "row", "date")) |>
+  left_join(min_power_dist, by = c("col", "row")) |>
+  # mutate(min_power_dist = min_power_dist / 1000) |> # kilometres
+  # mutate(id = row_number(), .before = 1) |>
+  # left_join(wt |> dplyr::select(-c(date,year,month,day)), by = "id") |>
+  mutate(elev_m = as.numeric(str_replace(elev_m, " m", ""))) |>
+  dplyr::select(-cause)
 ```
 
-```{r}
-library(lubridate)
-training <- fire_origin_cause
-training <- training %>%
-  filter(!cause %in% c("BURNING BUILDING",
-                       "WASTE DISPOSAL, INDUSTRIAL, SAWMILL, TIP",
-                       "WASTE DISPOSAL, DOMESTIC",
-                       "BURNING VEHICLE, MACHINE",
-                       "BURNING BUILDING")) %>%
-  filter(new_cause != "other") %>%
-  filter(new_cause != "relight")
-
-training <- mutate(training,
-                   year = factor(year(date)),
-                   month = factor(month(date), levels = c(10,11,12,1,2,3)),
-                   day = factor(day(date), levels = c(1:31)),
-                   wod = factor(wday(date), levels = c(1:7)))
-
-training <- filter(training, month %in% c(10,11,12,1,2,3))
-
-training <- na.omit(training)
-
-training <- mutate(training, new_cause = ifelse(new_cause == "accidental_human", "accident", new_cause)) %>%
-  mutate(new_cause = ifelse(new_cause == "burning_off_human", "burning_off", new_cause)) %>%
-  mutate(new_cause = factor(new_cause))
-
-training <- na.omit(training)
-
-training <- mutate(training, cause_raw = cause, cause = new_cause)
-training <- mutate(training,
-                   cause = forcats::fct_relevel(cause,
-                                       "lightning",
-                                       "accident",
-                                       "arson",
-                                       "burning_off"))
-
-training <- na.omit(training)
-```
+We are picking the 80% of the incidents from the first incidents as training data, and leaving the rest as testing data.
 
 ```{r}
-wt <- readRDS("weather_data.rds")
-maa <- readRDS("min_power_dist_filt.rds")
-training$min_power_dist <- maa / 1000 # kilometres
-train_w_covars <- training |> mutate(id = row_number(), .before = 1) |> left_join(wt |> dplyr::select(-c(date, year, month, day)), by = "id") |> mutate(elev_m = as.numeric(str_replace(elev_m, " m", "")))
+# split train test
+training_indices <- seq(1, ceiling(nrow(data) * 0.8))
+model_data <- data |> dplyr::select(
+  X, Y,
+  year, month, day, wod,
+  new_cause, 
+  min_dist,
+  elev_m, air_tmax, air_tmin, radiation, rainfall, rh_tmax, rh_tmin
+)
+training_data <- model_data[training_indices, ]
+testing_data <- model_data[-training_indices, ]
 ```
 
 ```{r}
 library(randomForest)
-rfmodel <- randomForest(cause ~ ., data = train_w_covars |> dplyr::select(X, Y, year, month, day, wod, cause, min_power_dist, elev_m, air_tmax, air_tmin, radiation, rainfall, rh_tmax, rh_tmin))
+rfmodel <- randomForest(new_cause ~ ., data = training_data, mtry = 7)
 ```
 
 ```{r}
 rfmodel
 ```
 
+
+Evaluating on testing dataset
+
 ```{r}
-list(data = training, model = rfmodel) -> state
-saveRDS(state, "cf_poc_state.rds")
+test_preds <- predict(rfmodel, testing_data)
+test_origs <- testing_data$new_cause
+library(MLmetrics)
+print(ConfusionMatrix(test_preds, test_origs))
+print(Accuracy(test_preds, test_origs)) # 0.72
+print(F1_Score(test_preds, test_origs)) # 0.83
+print(AUC(test_preds, test_origs)) # NaN
+```
+
+```{r}
+# list(data = data, model = rfmodel) -> state
+# saveRDS(state, "cf_final_state.rds")
 ```
 
 ```{r}
