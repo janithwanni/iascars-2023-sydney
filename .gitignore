@@ -2,3 +2,4 @@ renv/
 .DS_Store
 data/
 .Rproj.user
+*_files/
