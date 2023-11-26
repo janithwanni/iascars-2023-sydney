@@ -28,6 +28,7 @@ fire_origin_coords <- st_coordinates(fire_origin_sf) |>
   arrange(date)
 ```
 
+# Forest coverage
 
 ```{r}
 forest_img <- raster(
@@ -60,17 +61,28 @@ forest_info <- forest_info[fire_forest_index, ]
 data <- fire_origin_coords |> bind_cols(forest_info)
 ```
 
+# Weather data
 
 ```{r}
-library(rnoaa)
+# library(rnoaa)
 
-station_data <- ghcnd_stations()
+# station_data <- ghcnd_stations()
 
-nearby_stations <-  meteo_nearby_stations(
-  lat_lon_df = fire_origin_coords |> 
-    dplyr::select(longitude = X, latitude = Y),
-  station_data = station_data,
-  radius = 10
-)
+# nearby_stations <-  meteo_nearby_stations(
+#   lat_lon_df = fire_origin_coords |> 
+#     dplyr::select(longitude = X, latitude = Y),
+#   station_data = station_data,
+#   radius = 10
+# )
 ```
 
+```{r}
+library(weatherOz)
+```
+
+
+# Powerline data
+
+Calculating distance to nearest powerline.
+
+# 

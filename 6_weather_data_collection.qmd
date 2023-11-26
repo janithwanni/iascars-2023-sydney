@@ -59,6 +59,9 @@ training <- data$data
 
 
 ```{r}
+#| echo: false
+#| eval: false
+
 get_data_drill(
   training$X[1],
   training$Y[1],
