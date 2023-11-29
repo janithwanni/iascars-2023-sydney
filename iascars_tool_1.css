@@ -1,0 +1,65 @@
+:root{
+  --circle-radius: 350px;
+}
+
+h2 {text-align: center}
+.map-row {height: 100%;}
+.container-fluid{height: 90vh;}
+.leaflet-control-attribution {display: none;}
+.leaflet-top.leaflet-left {display: none;}
+.col-sm-6 {height: 100%;}
+.main-circle-container {height: 100%;}
+.main-map-container {height:100%}
+.main-circle {
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.circle {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.circle-0 {
+  transform: translate(-50%, -50%) rotate(271deg) translate(var(--circle-radius)) rotate(-271deg);
+}
+.circle-1 {
+  transform: translate(-50%, -50%) rotate(301deg) translate(var(--circle-radius)) rotate(-301deg);
+}
+.circle-2 {
+  transform: translate(-50%, -50%) rotate(331deg) translate(var(--circle-radius)) rotate(-331deg);
+}
+.circle-3 {
+  transform: translate(-50%, -50%) rotate(1deg) translate(var(--circle-radius)) rotate(-1deg);
+}
+.circle-4 {
+  transform: translate(-50%, -50%) rotate(31deg) translate(var(--circle-radius)) rotate(-31deg);
+}
+.circle-5 {
+  transform: translate(-50%, -50%) rotate(61deg) translate(var(--circle-radius)) rotate(-61deg);
+}
+.circle-6 {
+  transform: translate(-50%, -50%) rotate(91deg) translate(var(--circle-radius)) rotate(-91deg);
+}
+.circle-7 {
+  transform: translate(-50%, -50%) rotate(121deg) translate(var(--circle-radius)) rotate(-121deg);
+}
+.circle-8 {
+  transform: translate(-50%, -50%) rotate(151deg) translate(var(--circle-radius)) rotate(-151deg);
+}
+.circle-9 {
+  transform: translate(-50%, -50%) rotate(181deg) translate(var(--circle-radius)) rotate(-181deg);
+}
+.circle-10 {
+  transform: translate(-50%, -50%) rotate(211deg) translate(var(--circle-radius)) rotate(-211deg);
+}
+.circle-11 {
+  transform: translate(-50%, -50%) rotate(241deg) translate(var(--circle-radius)) rotate(-241deg);
+}
