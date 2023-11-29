@@ -164,9 +164,21 @@ print(AUC(test_preds, test_origs)) # NaN
 ```
 
 ```{r}
+test_data_w_preds <- testing_data |> mutate(preds = test_preds)
+test_data_w_preds |> count(new_cause, preds) # selecting the ones where lightning was predicted as accidental human
+```
+
+```{r}
+set.seed(123)
+interest_points <- test_data_w_preds |> filter(new_cause == "lightning", preds == "accidental_human") |> mutate(ind = row_number())
+```
+
+```{r}
 # list(data = data, model = rfmodel) -> state
 # saveRDS(state, "cf_final_state.rds")
 ```
+
+# validate ewhether cf is working 
 
 ```{r}
 library(counterfactuals)
@@ -175,27 +187,44 @@ predictor = Predictor$new(rfmodel, type = "prob")
 ```
 
 ```{r}
-x_interest <- training[1, ]
-predictor$predict(x_interest)
+# x_interest <- training[1, ]
+# predictor$predict(x_interest)
 ```
 
 
 ```{r}
-wi_classif = WhatIfClassif$new(predictor, n_counterfactuals = 5L)
+moc_classif = MOCClassif$new(
+  predictor,
+  fixed_features = c("X", "Y", "elev_m"),
+  epsilon = 0.1, # candidates less than 0.7 are penalized,
+  k = 5L,
+  # mu = 50,
+  # termination_crit = "genstag", # stop if candidates arent improving for n_generation amount
+  # n_generations = 200L,
+  quiet = TRUE)
 ```
 
 ```{r}
-cfactuals = wi_classif$find_counterfactuals(
-  x_interest, desired_class = "accident", desired_prob = c(0.5, 1)
-)
+find_cf <- function(inst, progress_bar) {
+  library(randomForest)
+  progress_bar()
+  cfactuals = moc_classif$find_counterfactuals(
+      inst, desired_class = "lightning", desired_prob = c(0.85, 1)
+    )
+  return(cfactuals$data |> mutate(X = inst$X, Y = inst$Y, ind = inst$ind, .before = 1))
+}
+
+interest_points_t <- split(interest_points, seq(nrow(interest_points)))
+library(furrr)
+library(progressr)
+plan(multisession, workers = 4) 
+with_progress({
+  p <- progressor(steps = nrow(interest_points))
+  cf_vals <- future_map_dfr(interest_points_t, find_cf, progress_bar = p)
+})
 ```
+
 
 ```{r}
-cfactuals$data
+saveRDS(cf_vals, "cf_vals_attempt_3.rds")
 ```
-
-```{r}
-x_interest
-```
-
-
