@@ -1,0 +1,345 @@
+---
+title: "Seeing the smoke before the fire"
+author: "Janith Wanniarachchi (Monash University)"
+format:
+  revealjs:
+    theme: [default, iascars_presentation_theme.scss]
+    slide-number: true
+---
+
+## Let's be honest here {.center}
+
+. . . 
+
+Building a good model is *hard*
+
+. . . 
+
+Explaining how a good model work is even **harder**
+
+##  {.center .what-if}
+
+. . . 
+
+<img src="imgs/black_box_model-2.png" style = "width: 20%"/>
+<br/>
+<span style = "font-style: italic; font-size: 1.2rem"> Exhibit A: The good model </span>
+
+. . . 
+
+<div> **What if** you could <br/> poke around and find out <br/> how this model works?
+
+. . . 
+
+**Introducing**
+
+<div class = "accent-color"> **Explainable AI (XAI) methods!** </div>
+
+
+## XAI has a lot of facets {.smaller}
+
+XAI can help you look at 
+
+::::{.columns}
+
+:::{.column width=50%}
+
+<p style = "text-align:center"> <img src="imgs/global_methods_2.png" style="width:90%"/> </p>
+
+How the model reacts to different features overall using <span class="accent-color"> Global Interpretability Methods </span>
+
+::: {.callout-note}
+## For example
+For a model fitted to predict the probability of a bushfire ignition, these methods can tell us how a certain feature (e.g. temperature) affects the prediction overall.
+:::
+
+:::
+
+:::{.column width=50%}
+
+<p style = "text-align:center"> <img src="imgs/local_methods_2.png" style="width:90%"/> </p>
+
+How the model gives a prediction to one single instance using <span class="accent-color">Local Interpretability Methods </span>
+
+::: {.callout-note}
+## For example
+For a model fitted to predict the probability of a bushfire ignition, these methods can tell us given a specific test case and the associated model prediction, how and why the model came to that decision.
+:::
+
+::: 
+
+::::
+
+## Explaining one prediction
+
+When it comes to understanding a model's decision process for a specific instance, there are several key methods that are related to each other in how they approach the problem
+
+1. LIME (Local Interpretable Model agnostic Explanations)
+2. Anchors
+3. Counterfactuals
+
+## How are these related {.smaller}
+
+For a given data point 
+
+:::{.incremental}
+- LIME will tell you what features were important in giving that decision
+  - Simply, it will fit a more understandable model that is as similar to the model as possible while also being explainable
+- Counterfactuals will tell you how the data should change to sway the decision given the model.
+  - Simply, it will try to find the closest instance to the given instance that has the prediction that is required while also being plausible
+- Anchors will tell you the decision rules that the model followed for that instance and other similar instances
+  - <span class="accent-color" style="font-weight: bold"> We will be talking about this today! </span>
+
+:::
+
+## What is an <span class = "what-is-a-obj"> Anchor </span>?
+
+*Formally*
+
+:::{.in-serif}
+
+a rule or a set of predicates that satisfy the given instance and is a sufficient condition for $f(x)$ (i.e. the model output) with high probability
+
+:::
+
+<hr/>
+
+:::{.callout-important}
+## Simply put
+
+We are going to find a big enough boundary box in the feature space containing other points that would have the same model prediction as the anchoring point.
+:::
+
+## What is a <span class = "what-is-a-obj"> predicate </span>?
+
+Predicates are simple logical statements. In this context a predicate is made up of
+
+:::: {.columns}
+::: {.column width="20%"}
+A feature 
+<br/>
+
+:::{.in-serif}
+Age
+:::
+
+:::
+
+::: {.column width="40%"}
+A logical operator
+<br/>
+
+:::{.in-serif}
+\>
+:::
+
+:::
+
+::: {.column width="40%"}
+A constant value
+<br/>
+
+:::{.in-serif}
+42
+:::
+
+:::
+
+::::
+
+:::{.callout-important}
+## Simply put
+
+A predicate is a boundary line that divides a feature into two subsets.
+
+:::
+
+## How are Anchors made?
+
+* This is achieved by formulating the problem as a Multi Armed Bandit problem to purely explore the feature space 
+
+* We are going generate a large enough bounding box containing other points that would have the same model prediction as the anchoring point (i.e. higher coverage and precision)
+
+## The Multi-arm Bandit problem
+
+:::{.callout-important}
+## Simply put
+
+To put it simply imagine you are the local point and you are trying to make a wall of similar friends like yourself by changing the walls of the room. Your options are to either pull the north, east, west, or south walls to put all of your friends inside the walls. When you have lots of space you get rewarded and when you find like minded friends you get rewarded as well.
+
+:::
+
+## What is our reward
+
+*Formally* the reward can be defined as follows,
+
+$$
+\begin{equation}
+R(\mathcal{A}) =
+    \begin{cases}
+        \text{Prec}(\mathcal{A}) + \text{cov}(\mathcal{A})^2 & \text{if } \text{Prec}(\mathcal{A}) \in \mathbb{R} \\
+        \text{Penalty} & \text{if } \text{Prec}(\mathcal{A}) < 0.6 
+    \end{cases}
+\end{equation}
+$$
+
+:::{.callout-important}
+## Simply put,
+We are going to be rewarded more for covering more ground while also being precise, and we are going to be punished if we push the walls into areas with weird precision values
+:::
+
+## Visualizing the way Anchors are built{.smaller}
+
+Let's visualize how a multi armed bandit solution will try to find possible boundaries in two dimensional space for a given instance and how the solution will be traversing the space of precision and coverage to find the optimal solution. We will be looking at two instances separately side by side.
+
+## Demonstration
+
+These are two instances that anchors are trying to find boundaries. On the right is the boundary in the data space while on the left the boundary is shown in bright red with respect to the precision (x-axis) and coverage (y-axis). The pink dots are the previously explored boundaries.
+
+:::: {.columns}
+::: {.column width=50%}
+
+<p style="text-align:center"><img src="imgs/n_dim_state_plot_1.gif" style="width:90%"/></p>
+
+:::
+
+::: {.column width=50%}
+
+<p style="text-align:center"><img src="imgs/n_dim_state_plot_1.gif" style="width:90%"/></p>
+
+:::
+
+::::
+
+## What did we just witness
+
+With anchors we are able to get an idea of which direction a majority of instances with same prediction lies, (in this case blue class predictions are towards the lower right quadrant while the red class predictions are towards the upper left quadrant).
+
+In a practical setting we can redo this for multiple instances and get an understanding of the model's decision boundary and get an approximate understanding of the high and low feature values that affect a model prediction.
+
+# Applying XAI to bushfire modeling
+
+## Why bushfires?
+
+::::{.columns}
+
+:::{.column width=70%}
+
+* The Australian bushfires, notably during the 2019/2020 season, have emerged as a significant global concern, showcasing the escalating threat of climate change. 
+
+* As bushfire ignitions become more frequent and intense even during the present year, building models to predict where the next fire is going to ignite is not enough. 
+
+* By obtaining explanations from the model we can generate new insights into the key features and patterns to monitor to detect bushfires.
+
+:::
+
+:::{.column width=30%}
+
+<p><img src="imgs/jo-anne-mcarthur-oitD52FFUu0-unsplash.jpg"/></p>
+
+:::
+
+::::
+
+
+
+## Bushfire ignition cause data overview {.smaller}
+
+::::{.columns}
+:::{.column width=50%}
+* Source: Department of Energy, Environment, and Climate Action
+* Data Period: 2000-2021
+* Data Type: Historic records of Victoria bushfires
+* Collection Method: 000 calls and crew reports
+* Objective : <span class="accent-color" style="font-weight:bold"> Build a model that can predict the cause of a possible bushfire and use explainable AI to uncover the decision process of the model </span>
+:::
+
+:::{.column width=50%}
+* Observation Content:
+  * Location
+  * Date
+  * Descriptive label of fire cause
+* Label Refinement:
+  * Original labels: Contained description of possible causes
+  * Refinement to 6 distinct causes:
+      * Accidents
+      * Arson
+      * Burning off
+      * Relight
+      * Lightning
+      * Other
+:::
+::::
+
+## Gathering climate and human activity data 
+
+- Weather data has been collected from SILO database through the weatherOz package.
+  * Temperature
+  * Rainfall
+  * Humditiy
+  * Sunlight
+- The distance to the nearest powerline for each bushfire ignition was also collected
+
+## Fitting model
+
+
+:::{.callout-note}
+## The problem statement is,
+
+Given the location, the date, the weather and human activity data, predict the most likely cause for a bushfire.
+
+:::
+
+A Random forest model was fitted on a training set from 2000 to 2020 while the testing set contained data from 2021 to 2022 with an F1 score on the testing dataset of 0.83.
+
+## How can XAI help in this scenario? {.smaller}
+
+* From the two possible methods, local interpretability methods (which explains the decision process of one instance) are more useful in this setting
+
+Given a models prediction of a bushfire cause for a given instance,
+
+:::{.incremental}
+- <span class = "accent-color"> LIME </span> can tell you, Which of the weather and human features were important in making this decision?
+- <span class = "accent-color"> Counterfactuals </span> can tell you, How should the weather and human factors be changed for this bushfire to be caused by another cause (according to the model's understanding)?
+- <span class = "accent-color"> Anchors </span> can tell you, What are the weather and human value ranges that the model considered for this instance and other instances with the same predicted cause
+:::
+
+## Visualizing Explanations {.smaller}
+
+Each XAI method will be giving explanations which are inherently high dimensional as the model takes a lot of features to make predictors. 
+
+The easiest to explain is anchors, which can given the decision rule that the model used to predict for the given instance and other similar instances. 
+
+. . . 
+
+::::{.columns}
+:::{.column width=50%}
+
+### Challenges
+
+* Showing lower and upper bounds for multiple variables in a holistic manner is difficult
+* Visualizing the model in data space and the boundary box given by anchor in high dimensional can be visually noisy to visualize.
+
+:::
+
+:::{.column width=50%}
+
+### Possibilities
+
+* Using grand tours to give an overall view of how the different variables interact in a high dimensional view
+* Providing interactive controls for the user to tap into the model in data space and explore the decision boundary.
+
+:::
+
+::::
+
+## Proof of concept
+
+Using XAI and bushfire models we will be building a tool that focuses on showcasing the different weather conditions that would cause bushfires.
+
+_Placeholder image for now._
+
+<p style="text-align:center"><img src="imgs/poc_tool.png" style = "width: 70%"/></p>
+
+# Questions?
+

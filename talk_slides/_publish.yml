@@ -1,0 +1,4 @@
+- source: iascars_presentation.qmd
+  quarto-pub:
+    - id: 9711450b-22bc-44a8-8101-86d08fc48424
+      url: 'https://janithwanni.quarto.pub/seeing-the-smoke-before-the-fire'
