@@ -540,33 +540,77 @@ R(\mathcal{A}) =
 </section>
 <section id="visualizing-the-way-anchors-are-built" class="slide level2 smaller">
 <h2>Visualizing the way Anchors are built</h2>
-<p>//TODO Explanations on what they are about to see</p>
+<p>Let’s visualize how a multi armed bandit solution will try to find possible boundaries in two dimensional space for a given instance.</p>
+<div class="fragment">
+<ul>
+<li>Watch as our solution navigates a 2D space, seeking boundaries.</li>
+<li>Observe the agent’s journey through precision and coverage, trying to uncover the optimal solution.</li>
+<li>Compare the agent on different instances side-by-side</li>
+</ul>
+</div>
 </section>
-<section id="demonstration" class="slide level2">
+<section id="demonstration" class="slide level2 smaller">
 <h2>Demonstration</h2>
-<p>These are two instances that anchors are trying to find boundaries. On the right is the boundary in the data space while on the left the boundary is shown in bright red with respect to the precision (x-axis) and coverage (y-axis). The pink dots are the previously explored boundaries.</p>
+<ul>
+<li>On the right is the boundary in the data space</li>
+<li>On the left the precision (x-axis) and coverage (y-axis) of the boundary is shown in bright red while the pink dots are the previously explored boundaries.</li>
+</ul>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p style="text-align:center">
 <img src="imgs/n_dim_state_plot_1.gif" style="width:90%">
 </p>
+<p class="text-align:center">
+</p><h4>
+Instance 1
+</h4>
+<p></p>
 </div><div class="column" style="width:50%;">
 <p style="text-align:center">
 <img src="imgs/n_dim_state_plot_1.gif" style="width:90%">
 </p>
+<p class="text-align:center">
+</p><h4>
+Instance 2
+</h4>
+<p></p>
 </div>
 </div>
 </section>
-<section id="what-did-we-just-witness" class="slide level2">
+<section id="what-did-we-just-witness" class="slide level2 smaller">
 <h2>What did we just witness</h2>
-<p>//TODO Explanation comes here</p>
+<ul>
+<li>Key Insight:
+<ul>
+<li>Majority of same-predicted instances:
+<ul>
+<li>Blue class predictions → Lower right quadrant</li>
+<li>Red class predictions → Upper left quadrant</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>In a practical setting we can redo this for multiple instances and get an understanding of the model’s decision boundary and get an approximate understanding of the high and low feature values that affect a model prediction.</p>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section>
 <section id="applying-xai-to-bushfire-modeling" class="title-slide slide level1 center">
 <h1>Applying XAI to bushfire modeling</h1>
 
 </section>
-<section id="why-bushfires" class="slide level2">
+<section id="why-bushfires" class="slide level2 smaller">
 <h2>Why bushfires?</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
@@ -582,8 +626,8 @@ R(\mathcal{A}) =
 </div>
 </div>
 </section>
-<section id="bushfire-ignition-cause-data-overview" class="slide level2 smaller">
-<h2>Bushfire ignition cause data overview</h2>
+<section id="bushfire-ignition-data" class="slide level2 smaller">
+<h2>Bushfire ignition data</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
@@ -603,7 +647,6 @@ R(\mathcal{A}) =
 </ul></li>
 <li>Label Refinement:
 <ul>
-<li>Original labels: Contained description of possible causes</li>
 <li>Refinement to 6 distinct causes:
 <ul>
 <li>Accidents</li>
@@ -618,21 +661,21 @@ R(\mathcal{A}) =
 </div>
 </div>
 </section>
-<section id="gathering-climate-and-human-activity-data" class="slide level2">
-<h2>Gathering climate and human activity data</h2>
+<section id="gathering-predictors" class="slide level2">
+<h2>Gathering predictors</h2>
 <ul>
 <li>Weather data has been collected from SILO database through the weatherOz package.
 <ul>
 <li>Temperature</li>
 <li>Rainfall</li>
-<li>Humditiy</li>
+<li>Humidity</li>
 <li>Sunlight</li>
 </ul></li>
 <li>The distance to the nearest powerline for each bushfire ignition was also collected</li>
 </ul>
 </section>
-<section id="fitting-model" class="slide level2">
-<h2>Fitting model</h2>
+<section id="fitting-the-model" class="slide level2">
+<h2>Fitting the model</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -646,7 +689,9 @@ R(\mathcal{A}) =
 </div>
 </div>
 </div>
-<p>A Random forest model was fitted on a training set from 2000 to 2020 while the testing set contained data from 2021 to 2022 with an F1 score on the testing dataset of 0.83.</p>
+<div class="fragment">
+<p>As a baseline model, A Random forest model was fitted on a training set from 2000 to 2020 while the testing set contained data from 2021 to 2022 with an F1 score on the testing dataset of 0.83.</p>
+</div>
 </section>
 <section id="how-can-xai-help-in-this-scenario" class="slide level2 smaller">
 <h2>How can XAI help in this scenario?</h2>
@@ -656,15 +701,15 @@ R(\mathcal{A}) =
 <p>Given a models prediction of a bushfire cause for a given instance,</p>
 <div>
 <ul>
-<li class="fragment"><span class="accent-color"> LIME </span> can tell you, Which of the weather and human features were important in making this decision?</li>
-<li class="fragment"><span class="accent-color"> Counterfactuals </span> can tell you, How should the weather and human factors be changed for this bushfire to be caused by another cause (according to the model’s understanding)?</li>
+<li class="fragment"><span class="accent-color"> LIME </span> can tell you, Which of the weather and human features were important in making this decision</li>
+<li class="fragment"><span class="accent-color"> Counterfactuals </span> can tell you, How should the weather and human factors be changed for this bushfire to be caused by another cause (according to the model’s understanding)</li>
 <li class="fragment"><span class="accent-color"> Anchors </span> can tell you, What are the weather and human value ranges that the model considered for this instance and other instances with the same predicted cause</li>
 </ul>
 </div>
 </section>
 <section id="visualizing-explanations" class="slide level2 smaller">
 <h2>Visualizing Explanations</h2>
-<p>Each XAI method will be giving explanations which are inherently high dimensional as the model takes a lot of features to make predictors.</p>
+<p>Each XAI method will give explanations which are inherently high dimensional as the model takes a lot of features to make predictors.</p>
 <p>The easiest to explain is anchors, which can given the decision rule that the model used to predict for the given instance and other similar instances.</p>
 <div class="fragment">
 <div class="columns">
@@ -684,7 +729,7 @@ R(\mathcal{A}) =
 </div>
 </div>
 </section>
-<section id="proof-of-concept" class="slide level2">
+<section id="proof-of-concept" class="slide level2 smaller">
 <h2>Proof of concept</h2>
 <p>Using XAI and bushfire models we will be building a tool that focuses on showcasing the different weather conditions that would cause bushfires.</p>
 <p><em>Placeholder image for now.</em></p>

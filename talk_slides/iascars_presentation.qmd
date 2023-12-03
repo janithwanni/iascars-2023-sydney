@@ -188,38 +188,59 @@ $$
 We are going to be rewarded more for covering more ground while also being precise, and we are going to be punished if we push the walls into areas with weird precision values
 :::
 
-## Visualizing the way Anchors are built{.smaller}
+## Visualizing the way Anchors are built {.smaller}
 
-Let's visualize how a multi armed bandit solution will try to find possible boundaries in two dimensional space for a given instance and how the solution will be traversing the space of precision and coverage to find the optimal solution. We will be looking at two instances separately side by side.
+Let's visualize how a multi armed bandit solution will try to find possible boundaries in two dimensional space for a given instance.
 
-## Demonstration
+. . . 
 
-These are two instances that anchors are trying to find boundaries. On the right is the boundary in the data space while on the left the boundary is shown in bright red with respect to the precision (x-axis) and coverage (y-axis). The pink dots are the previously explored boundaries.
+- Watch as our solution navigates a 2D space, seeking boundaries.
+- Observe the agent's journey through precision and coverage, trying to uncover the optimal solution.
+- Compare the agent on different instances side-by-side
+
+
+## Demonstration {.smaller}
+
+* On the right is the boundary in the data space
+* On the left the precision (x-axis) and coverage (y-axis) of the boundary is shown in bright red while the pink dots are the previously explored boundaries.
 
 :::: {.columns}
 ::: {.column width=50%}
 
 <p style="text-align:center"><img src="imgs/n_dim_state_plot_1.gif" style="width:90%"/></p>
 
+<p class = "text-align:center"> <h4> Instance 1 </h4> </p>
+
 :::
 
 ::: {.column width=50%}
 
 <p style="text-align:center"><img src="imgs/n_dim_state_plot_1.gif" style="width:90%"/></p>
 
+<p class = "text-align:center"> <h4> Instance 2 </h4> </p>
+
 :::
 
 ::::
 
-## What did we just witness
+## What did we just witness {.smaller}
 
-With anchors we are able to get an idea of which direction a majority of instances with same prediction lies, (in this case blue class predictions are towards the lower right quadrant while the red class predictions are towards the upper left quadrant).
+* Key Insight:
+  * Majority of same-predicted instances:
+    * Blue class predictions → Lower right quadrant
+    * Red class predictions → Upper left quadrant
+
+. . . 
+
+:::{.callout-tip}
 
 In a practical setting we can redo this for multiple instances and get an understanding of the model's decision boundary and get an approximate understanding of the high and low feature values that affect a model prediction.
 
+:::
+
 # Applying XAI to bushfire modeling
 
-## Why bushfires?
+## Why bushfires? {.smaller}
 
 ::::{.columns}
 
@@ -243,7 +264,7 @@ In a practical setting we can redo this for multiple instances and get an unders
 
 
 
-## Bushfire ignition cause data overview {.smaller}
+## Bushfire ignition data {.smaller}
 
 ::::{.columns}
 :::{.column width=50%}
@@ -260,7 +281,6 @@ In a practical setting we can redo this for multiple instances and get an unders
   * Date
   * Descriptive label of fire cause
 * Label Refinement:
-  * Original labels: Contained description of possible causes
   * Refinement to 6 distinct causes:
       * Accidents
       * Arson
@@ -271,17 +291,16 @@ In a practical setting we can redo this for multiple instances and get an unders
 :::
 ::::
 
-## Gathering climate and human activity data 
+## Gathering predictors 
 
 - Weather data has been collected from SILO database through the weatherOz package.
   * Temperature
   * Rainfall
-  * Humditiy
+  * Humidity
   * Sunlight
 - The distance to the nearest powerline for each bushfire ignition was also collected
 
-## Fitting model
-
+## Fitting the model
 
 :::{.callout-note}
 ## The problem statement is,
@@ -290,7 +309,9 @@ Given the location, the date, the weather and human activity data, predict the m
 
 :::
 
-A Random forest model was fitted on a training set from 2000 to 2020 while the testing set contained data from 2021 to 2022 with an F1 score on the testing dataset of 0.83.
+. . . 
+
+As a baseline model, A Random forest model was fitted on a training set from 2000 to 2020 while the testing set contained data from 2021 to 2022 with an F1 score on the testing dataset of 0.83.
 
 ## How can XAI help in this scenario? {.smaller}
 
@@ -299,14 +320,14 @@ A Random forest model was fitted on a training set from 2000 to 2020 while the t
 Given a models prediction of a bushfire cause for a given instance,
 
 :::{.incremental}
-- <span class = "accent-color"> LIME </span> can tell you, Which of the weather and human features were important in making this decision?
-- <span class = "accent-color"> Counterfactuals </span> can tell you, How should the weather and human factors be changed for this bushfire to be caused by another cause (according to the model's understanding)?
+- <span class = "accent-color"> LIME </span> can tell you, Which of the weather and human features were important in making this decision
+- <span class = "accent-color"> Counterfactuals </span> can tell you, How should the weather and human factors be changed for this bushfire to be caused by another cause (according to the model's understanding)
 - <span class = "accent-color"> Anchors </span> can tell you, What are the weather and human value ranges that the model considered for this instance and other instances with the same predicted cause
 :::
 
 ## Visualizing Explanations {.smaller}
 
-Each XAI method will be giving explanations which are inherently high dimensional as the model takes a lot of features to make predictors. 
+Each XAI method will give explanations which are inherently high dimensional as the model takes a lot of features to make predictors. 
 
 The easiest to explain is anchors, which can given the decision rule that the model used to predict for the given instance and other similar instances. 
 
@@ -333,7 +354,7 @@ The easiest to explain is anchors, which can given the decision rule that the mo
 
 ::::
 
-## Proof of concept
+## Proof of concept {.smaller}
 
 Using XAI and bushfire models we will be building a tool that focuses on showcasing the different weather conditions that would cause bushfires.
 
