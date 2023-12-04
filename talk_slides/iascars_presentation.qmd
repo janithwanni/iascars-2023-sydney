@@ -223,10 +223,9 @@ Let's visualize how a multi armed bandit solution will try to find possible boun
 
 ::::
 
-## What did we just witness {.smaller}
+## What did we just observe {.smaller}
 
-* Key Insight:
-  * Majority of same-predicted instances:
+* The direction of the boundary box tells us the direction of the decision boundary
     * Blue class predictions → Lower right quadrant
     * Red class predictions → Upper left quadrant
 
@@ -338,7 +337,7 @@ The easiest to explain is anchors, which can given the decision rule that the mo
 
 ### Challenges
 
-* Showing lower and upper bounds for multiple variables in a holistic manner is difficult
+* Showing lower and upper bounds for multiple variables in a holistic manner is difficult as the data can be quite noisy
 * Visualizing the model in data space and the boundary box given by anchor in high dimensional can be visually noisy to visualize.
 
 :::
@@ -354,13 +353,65 @@ The easiest to explain is anchors, which can given the decision rule that the mo
 
 ::::
 
-## Proof of concept {.smaller}
+## Visualizing anchors {.smaller}
 
-Using XAI and bushfire models we will be building a tool that focuses on showcasing the different weather conditions that would cause bushfires.
+::::{.columns}
+:::{.column width=50%}
 
-_Placeholder image for now._
 
-<p style="text-align:center"><img src="imgs/poc_tool.png" style = "width: 70%"/></p>
+<p style="text-align:center"><img src = "imgs/box_model.gif" /></p>
 
-# Questions?
+
+#### The discovered anchor and the class labels
+
+:::
+
+:::{.column width=50%}
+
+Let's take the fitted bushfire model and use it to generate a likely decision boundary for a randomly selected lightning prediction.
+
+Here the blue dots refer to the instances with the prediction lightning and the red dots are the instances that do not have lightning as a prediction.
+
+Let's zoom in to the box and inspect it's contents.
+
+:::
+::::
+
+---
+
+::::{.columns}
+:::{.column width=50%}
+
+<p style="text-align:center"><img src = "imgs/inside_box_model.gif" /></p>
+
+
+#### Local View
+
+_A majority of the points in the box are lightning predictions_
+
+:::
+
+:::{.column width=50%}
+
+<p style="text-align:center"><img src = "imgs/box_scatmat.gif" /></p>
+
+#### Pairwise view
+
+_There are clear clusters in the bivariate relationships indicating that there are relationships between the variables that would be heavily influential in building a model boundary._
+
+:::
+::::
+
+
+## Conclusions
+
+:::{.incremental}
+* XAI is a growing field that is gaining continued development
+* XAI methods can be divided into local or global methods based on the data that they explain
+* LIME, Counterfactuals, and Anchors are interesting local methods
+* Anchors can give easy to understand decision rules in the form of upper and lower boundaries
+* Visualizing these explanations can be hard but there are promising results to advance forward.
+:::
+
+# Thank you!
 

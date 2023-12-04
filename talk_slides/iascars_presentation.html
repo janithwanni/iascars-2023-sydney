@@ -577,16 +577,13 @@ Instance 2
 </div>
 </div>
 </section>
-<section id="what-did-we-just-witness" class="slide level2 smaller">
-<h2>What did we just witness</h2>
+<section id="what-did-we-just-observe" class="slide level2 smaller">
+<h2>What did we just observe</h2>
 <ul>
-<li>Key Insight:
-<ul>
-<li>Majority of same-predicted instances:
+<li>The direction of the boundary box tells us the direction of the decision boundary
 <ul>
 <li>Blue class predictions → Lower right quadrant</li>
 <li>Red class predictions → Upper left quadrant</li>
-</ul></li>
 </ul></li>
 </ul>
 <div class="fragment">
@@ -716,7 +713,7 @@ Instance 2
 <div class="column" style="width:50%;">
 <h3 id="challenges">Challenges</h3>
 <ul>
-<li>Showing lower and upper bounds for multiple variables in a holistic manner is difficult</li>
+<li>Showing lower and upper bounds for multiple variables in a holistic manner is difficult as the data can be quite noisy</li>
 <li>Visualizing the model in data space and the boundary box given by anchor in high dimensional can be visually noisy to visualize.</li>
 </ul>
 </div><div class="column" style="width:50%;">
@@ -729,16 +726,53 @@ Instance 2
 </div>
 </div>
 </section>
-<section id="proof-of-concept" class="slide level2 smaller">
-<h2>Proof of concept</h2>
-<p>Using XAI and bushfire models we will be building a tool that focuses on showcasing the different weather conditions that would cause bushfires.</p>
-<p><em>Placeholder image for now.</em></p>
+<section id="visualizing-anchors" class="slide level2 smaller">
+<h2>Visualizing anchors</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <p style="text-align:center">
-<img src="imgs/poc_tool.png" style="width: 70%">
+<img src="imgs/box_model.gif">
 </p>
+<h4 id="the-discovered-anchor-and-the-class-labels">The discovered anchor and the class labels</h4>
+</div><div class="column" style="width:50%;">
+<p>Let’s take the fitted bushfire model and use it to generate a likely decision boundary for a randomly selected lightning prediction.</p>
+<p>Here the blue dots refer to the instances with the prediction lightning and the red dots are the instances that do not have lightning as a prediction.</p>
+<p>Let’s zoom in to the box and inspect it’s contents.</p>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:50%;">
+<p style="text-align:center">
+<img src="imgs/inside_box_model.gif">
+</p>
+<h4 id="local-view">Local View</h4>
+<p><em>A majority of the points in the box are lightning predictions</em></p>
+</div><div class="column" style="width:50%;">
+<p style="text-align:center">
+<img src="imgs/box_scatmat.gif">
+</p>
+<h4 id="pairwise-view">Pairwise view</h4>
+<p><em>There are clear clusters in the bivariate relationships indicating that there are relationships between the variables that would be heavily influential in building a model boundary.</em></p>
+</div>
+</div>
+</section>
+<section id="conclusions" class="slide level2">
+<h2>Conclusions</h2>
+<div>
+<ul>
+<li class="fragment">XAI is a growing field that is gaining continued development</li>
+<li class="fragment">XAI methods can be divided into local or global methods based on the data that they explain</li>
+<li class="fragment">LIME, Counterfactuals, and Anchors are interesting local methods</li>
+<li class="fragment">Anchors can give easy to understand decision rules in the form of upper and lower boundaries</li>
+<li class="fragment">Visualizing these explanations can be hard but there are promising results to advance forward.</li>
+</ul>
+</div>
 </section></section>
-<section id="questions" class="title-slide slide level1 center">
-<h1>Questions?</h1>
+<section id="thank-you" class="title-slide slide level1 center">
+<h1>Thank you!</h1>
 <div class="footer footer-default">
 
 </div>
