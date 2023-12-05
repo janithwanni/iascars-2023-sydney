@@ -35,11 +35,14 @@ $hookers-green: #5a7473ff;
 $white: #ffffff;
 $accent-lapis-lazuli: #FF6E6E;
 
+$dark-blue: #021627;
+$light-red: #D6311F;
+
 $body-bg: $white;
-$body-color: $black;
+$body-color: $dark-blue;
 $font-family-sans-serif: $poppins;
 $presentation-heading-font: $barlow;
-$accent-color: $accent-lapis-lazuli;
+$accent-color: $light-red;
 
 .reveal blockquote {
   color: $accent-color !important;

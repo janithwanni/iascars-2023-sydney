@@ -72,7 +72,7 @@ For a model fitted to predict the probability of a bushfire ignition, these meth
 
 ## Explaining one prediction
 
-When it comes to understanding a model's decision process for a specific instance, there are several key methods that are related to each other in how they approach the problem
+When it comes to understanding <span class = "accent-color"> a model's decision process for a specific instance </span>, there are several key methods that are related to each other in how they approach the problem
 
 1. LIME (Local Interpretable Model agnostic Explanations)
 2. Anchors
@@ -156,7 +156,7 @@ A predicate is a boundary line that divides a feature into two subsets.
 
 ## How are Anchors made?
 
-* This is achieved by formulating the problem as a Multi Armed Bandit problem to purely explore the feature space 
+* This is achieved by formulating the problem as <span class="accent-color"> a Multi Armed Bandit problem </span> to purely explore the feature space 
 
 * We are going generate a large enough bounding box containing other points that would have the same model prediction as the anchoring point (i.e. higher coverage and precision)
 
@@ -165,11 +165,15 @@ A predicate is a boundary line that divides a feature into two subsets.
 :::{.callout-important}
 ## Simply put
 
-To put it simply imagine you are the local point and you are trying to make a wall of similar friends like yourself by changing the walls of the room. Your options are to either pull the north, east, west, or south walls to put all of your friends inside the walls. When you have lots of space you get rewarded and when you find like minded friends you get rewarded as well.
+Imagine you are the local point and you are trying to make a wall of similar friends like yourself by changing the walls of the room. 
+
+Your options are to either change the north, east, west, or south walls to put all of your friends inside the walls. 
+
+When you have lots of space you get rewarded and when you find like minded friends you get rewarded as well.
 
 :::
 
-## What is our reward
+<!-- ## What is our reward
 
 *Formally* the reward can be defined as follows,
 
@@ -186,7 +190,7 @@ $$
 :::{.callout-important}
 ## Simply put,
 We are going to be rewarded more for covering more ground while also being precise, and we are going to be punished if we push the walls into areas with weird precision values
-:::
+::: -->
 
 ## Visualizing the way Anchors are built {.smaller}
 
@@ -207,17 +211,17 @@ Let's visualize how a multi armed bandit solution will try to find possible boun
 :::: {.columns}
 ::: {.column width=50%}
 
-<p style="text-align:center"><img src="imgs/n_dim_state_plot_1.gif" style="width:90%"/></p>
+<p style="text-align:center"><img src="imgs/n_dim_state_plot_2.gif" style="width:90%"/></p>
 
-<p class = "text-align:center"> <h4> Instance 1 </h4> </p>
+<p class = "text-align:center"> <h4> Instance 1 (blue) </h4> </p>
 
 :::
 
 ::: {.column width=50%}
 
-<p style="text-align:center"><img src="imgs/n_dim_state_plot_1.gif" style="width:90%"/></p>
+<p style="text-align:center"><img src="imgs/n_dim_state_plot_2_2.gif" style="width:90%"/></p>
 
-<p class = "text-align:center"> <h4> Instance 2 </h4> </p>
+<p class = "text-align:center"> <h4> Instance 2 (red) </h4> </p>
 
 :::
 
@@ -314,7 +318,7 @@ As a baseline model, A Random forest model was fitted on a training set from 200
 
 ## How can XAI help in this scenario? {.smaller}
 
-* From the two possible methods, local interpretability methods (which explains the decision process of one instance) are more useful in this setting
+* From the two possible methods, <span class = "accent-color">local interpretability methods </span> (which explains the decision process of one instance) are more useful in this setting
 
 Given a models prediction of a bushfire cause for a given instance,
 
@@ -330,15 +334,17 @@ Each XAI method will give explanations which are inherently high dimensional as 
 
 The easiest to explain is anchors, which can given the decision rule that the model used to predict for the given instance and other similar instances. 
 
-. . . 
-
 ::::{.columns}
 :::{.column width=50%}
 
 ### Challenges
 
+:::{.incremental}
+
 * Showing lower and upper bounds for multiple variables in a holistic manner is difficult as the data can be quite noisy
 * Visualizing the model in data space and the boundary box given by anchor in high dimensional can be visually noisy to visualize.
+
+:::
 
 :::
 
@@ -346,8 +352,12 @@ The easiest to explain is anchors, which can given the decision rule that the mo
 
 ### Possibilities
 
+:::{.incremental}
+
 * Using grand tours to give an overall view of how the different variables interact in a high dimensional view
 * Providing interactive controls for the user to tap into the model in data space and explore the decision boundary.
+
+:::
 
 :::
 
@@ -382,22 +392,22 @@ Let's zoom in to the box and inspect it's contents.
 ::::{.columns}
 :::{.column width=50%}
 
-<p style="text-align:center"><img src = "imgs/inside_box_model.gif" /></p>
+<p style="text-align:center"><img src = "imgs/inside_box_model.gif" style="width: 80%"/></p>
 
 
 #### Local View
 
-_A majority of the points in the box are lightning predictions_
+<p style="line-height:0.8;"><span style = "font-size: 1.5rem"> A majority of the points in the box are lightning predictions</span> </p>
 
 :::
 
 :::{.column width=50%}
 
-<p style="text-align:center"><img src = "imgs/box_scatmat.gif" /></p>
+<p style="text-align:center"><img src = "imgs/box_scatmat.gif" style="width:80%"/></p>
 
 #### Pairwise view
 
-_There are clear clusters in the bivariate relationships indicating that there are relationships between the variables that would be heavily influential in building a model boundary._
+<p style="line-height:0.8;"><span style = "font-size: 1.5rem">There are clear clusters in the bivariate relationships indicating that there are relationships between the variables that would be heavily influential in building a model boundary.</span></p>
 
 :::
 ::::
