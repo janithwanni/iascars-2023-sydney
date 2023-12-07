@@ -7,11 +7,12 @@
 <link href="iascars_presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="iascars_presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="iascars_presentation_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="iascars_presentation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="iascars_presentation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="iascars_presentation_files/libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="iascars_presentation_files/libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.450">
 
-  <meta name="author" content="Janith Wanniarachchi (Monash University)">
-  <title>Seeing the smoke before the fire</title>
+  <title>iascars_presentation</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -324,17 +325,34 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Seeing the smoke before the fire</h1>
 
-<div class="quarto-title-authors">
-<div class="quarto-title-author">
-<div class="quarto-title-author-name">
-Janith Wanniarachchi (Monash University) 
-</div>
-</div>
-</div>
+<section id="seeing-the-smoke-before-the-fire" class="slide level2" data-menu-title="Seeing the smoke before the fire">
+<h2></h2>
+<script>
+  document.title = "Seeing the smoke before the fire"
+</script>
 
+<div>
+
+  <h1> Seeing the <span class="in-serif" style="color: #A7A7A7"> smoke <br> </span> before the <span class="in-serif" style="color: #E22121"> fire </span> </h1>
+
+  <span class="accent-color" style="font-family: 'Barlow', sans-serif; font-weight: bold"> Janith Wanniarachchi </span>
+  
+  <br>
+  
+  <span style="font-style: italic; font-size: 1.5rem; display: block;"> janith.wanniarachchi@monash.edu </span>
+  
+  <span style="font-size: 1.2rem"> Department of Econometrics and Business Statistics, Monash University </span>
+
+  <hr style="width: 40%; opacity: 0.2; margin-left: 0">
+
+  <span style="font-size: 1.5rem; display: inline-block"> Supervised by Prof. Dianne Cook, Dr. Kate Saunders, Dr. Patricia Menendez, Dr. Thiyanga Talagala </span>
+
+<br>
+
+  <span style="font-style=italic; font-size: 0.75rem"> IASC-ARS 2023, Macquarie University, Sydney </span>
+
+</div>
 </section>
 <section id="lets-be-honest-here" class="slide level2 center">
 <h2>Let’s be honest here</h2>
@@ -343,6 +361,19 @@ Janith Wanniarachchi (Monash University)
 </div>
 <div class="fragment">
 <p>Explaining how a good model work is even <strong>harder</strong></p>
+<aside class="notes">
+<p>All right I’ll be real with you, i have a hot take that everyone knows but no one wanted to address. Let’s be honest here, building models are hard, we spend enough years in grad school struggling making those but theres a bigger problem here, explaining these models is even harder.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </div>
 </section>
 <section id="section" class="slide level2 center what-if">
@@ -359,9 +390,22 @@ Janith Wanniarachchi (Monash University)
 <div class="accent-color">
 <strong>Explainable AI (XAI) methods!</strong>
 </div>
+<aside class="notes">
+<p>I bring to the court, exhibit A, the black box model which is performing good at the moment and smiling proudly for performing well, (must be nice to be happy like that) but we don’t know how it is making it’s decisions. What if we could poke around and find out how this model works? Well there’s a new field that’s being growing in pushing the boundaries of explaining black box models called explainable AI or XAI</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </div>
 </div></section>
-<section id="xai-has-a-lot-of-facets" class="slide level2 smaller">
+<section id="xai-has-a-lot-of-facets" class="slide level2">
 <h2>XAI has a lot of facets</h2>
 <p>XAI can help you look at</p>
 <div class="columns">
@@ -370,68 +414,85 @@ Janith Wanniarachchi (Monash University)
 <img src="imgs/global_methods_2.png" style="width:90%">
 </p>
 <p>How the model reacts to different features overall using <span class="accent-color"> Global Interpretability Methods </span></p>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>For example</strong></p>
-</div>
-<div class="callout-content">
-<p>For a model fitted to predict the probability of a bushfire ignition, these methods can tell us how a certain feature (e.g.&nbsp;temperature) affects the prediction overall.</p>
-</div>
-</div>
-</div>
+<!-- ::: {.callout-note}
+## For example
+For a model fitted to predict the probability of a bushfire ignition, these methods can tell us how a certain feature (e.g. temperature) affects the prediction overall.
+::: -->
 </div><div class="column" style="width:50%;">
 <p style="text-align:center">
 <img src="imgs/local_methods_2.png" style="width:90%">
 </p>
 <p>How the model gives a prediction to one single instance using <span class="accent-color">Local Interpretability Methods </span></p>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>For example</strong></p>
-</div>
-<div class="callout-content">
-<p>For a model fitted to predict the probability of a bushfire ignition, these methods can tell us given a specific test case and the associated model prediction, how and why the model came to that decision.</p>
+<!-- ::: {.callout-note}
+## For example
+For a model fitted to predict the probability of a bushfire ignition, these methods can tell us given a specific test case and the associated model prediction, how and why the model came to that decision.
+::: -->
 </div>
 </div>
-</div>
-</div>
-</div>
+<aside class="notes">
+<p>Much like us humans, XAI comes in different varieties, and the two main ones are global and local interpretability methods, since I’ll be talking about bushfires, let’s assume that we have this amazing model that can predict the probability of a bushfire given a future date and location and it’s scarily good. Global methods will tell us how let’s say the temperature affects the chances of bushfire, while local methods will be able to tell us which weather conditions it used to give the prediction for a specific location and time.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="explaining-one-prediction" class="slide level2">
 <h2>Explaining one prediction</h2>
-<p>When it comes to understanding a model’s decision process for a specific instance, there are several key methods that are related to each other in how they approach the problem</p>
+<p>There are several key <span class="accent-color"> local interpretability methods </span> that are related to each other in how they approach the problem</p>
 <ol type="1">
 <li>LIME (Local Interpretable Model agnostic Explanations)</li>
 <li>Anchors</li>
 <li>Counterfactuals</li>
 </ol>
+<aside class="notes">
+<p>From these two methods generally understanding on a local scale is more informative and there are several methods that are connected together called lime, counterfactuals and anchors.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="how-are-these-related" class="slide level2 smaller">
+<section id="how-are-these-related" class="slide level2">
 <h2>How are these related</h2>
 <p>For a given data point</p>
 <div>
 <ul>
-<li class="fragment">LIME will tell you what features were important in giving that decision
-<ul>
-<li class="fragment">Simply, it will fit a more understandable model that is as similar to the model as possible while also being explainable</li>
-</ul></li>
-<li class="fragment">Counterfactuals will tell you how the data should change to sway the decision given the model.
-<ul>
-<li class="fragment">Simply, it will try to find the closest instance to the given instance that has the prediction that is required while also being plausible</li>
-</ul></li>
-<li class="fragment">Anchors will tell you the decision rules that the model followed for that instance and other similar instances
+<li class="fragment">LIME will tell you what features were important in giving that decision</li>
+<li class="fragment">Counterfactuals will tell you how the data should change to sway the decision given the model.</li>
+<li class="fragment">Anchors will tell you what is the decision process that the model followed for that instance and other similar instances
 <ul>
 <li class="fragment"><span class="accent-color" style="font-weight: bold"> We will be talking about this today! </span></li>
 </ul></li>
 </ul>
 </div>
+<aside class="notes">
+<p>Lime can answer the question “what features were important in giving that decision?”, it achieves this by fitting a more understandable model that is as similar to the model as possible while also being explainable</p>
+<p>while counterfactuals can answer the question “how the data should change to sway the decision given the model”, counterfactuals will try to find the closest instance to the given instance that has the prediction that is required while also being plausible</p>
+<p>finally anchors can answer the question, what is the decision process that the model followed for that instance and other similar instances, and how it achieves this will be the talk for the day</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="what-is-an-anchor" class="slide level2">
 <h2>What is an <span class="what-is-a-obj"> Anchor </span>?</h2>
@@ -453,6 +514,19 @@ Janith Wanniarachchi (Monash University)
 </div>
 </div>
 </div>
+<aside class="notes">
+<p>let’s talk anchors, Formally its a set of predicates that satisfy the given instance and is sufficient for the model boundary, or simply put, an anchor is going to give you the decision rules that the model follows for a specific instance, how I hear you ask enthusiastically? We are going to build a boundary box in the feature space using predicates that can capture the instance and similar points with high precision.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="what-is-a-predicate" class="slide level2">
 <h2>What is a <span class="what-is-a-obj"> predicate </span>?</h2>
@@ -488,13 +562,39 @@ Janith Wanniarachchi (Monash University)
 </div>
 </div>
 </div>
+<aside class="notes">
+<p>What are predicates? Basically it’s a boundary line that divides the feature space into two subsets.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="how-are-anchors-made" class="slide level2">
 <h2>How are Anchors made?</h2>
 <ul>
-<li><p>This is achieved by formulating the problem as a Multi Armed Bandit problem to purely explore the feature space</p></li>
-<li><p>We are going generate a large enough bounding box containing other points that would have the same model prediction as the anchoring point (i.e.&nbsp;higher coverage and precision)</p></li>
+<li><p>This is achieved by formulating the problem as <span class="accent-color"> a Multi Armed Bandit problem </span> to purely explore the feature space</p></li>
+<li><p>Multi-arm bandit problems are like playing different slot machines. You want to design a strategy to get the most rewards by choosing the best machines, even when you don’t know how likely they are to pay out.</p></li>
 </ul>
+<aside class="notes">
+<p>Deciding on a box to make in high dimensional space is harder than folding a fitted sheet, so the authors of anchors formulated the problem as a multi armed bandit problem. The idea is that you are in a casino and want to get overall higher rewards by pulling the arms of the best slot machines, finally my gambling addiction from Genshin impact paid off</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="the-multi-arm-bandit-problem" class="slide level2">
 <h2>The Multi-arm Bandit problem</h2>
@@ -507,75 +607,100 @@ Janith Wanniarachchi (Monash University)
 <p><strong>Simply put</strong></p>
 </div>
 <div class="callout-content">
-<p>To put it simply imagine you are the local point and you are trying to make a wall of similar friends like yourself by changing the walls of the room. Your options are to either pull the north, east, west, or south walls to put all of your friends inside the walls. When you have lots of space you get rewarded and when you find like minded friends you get rewarded as well.</p>
+<p>Imagine you are the local point and you are trying to make a wall of similar friends like yourself by changing the walls of the room.</p>
+<p>Your options are to either change the north, east, west, or south walls to put all of your friends inside the walls.</p>
+<p>When you have lots of space you get rewarded and when you find like minded friends you get rewarded as well.</p>
 </div>
 </div>
 </div>
-</section>
-<section id="what-is-our-reward" class="slide level2">
-<h2>What is our reward</h2>
-<p><em>Formally</em> the reward can be defined as follows,</p>
-<p><span class="math display">\[
+<div style="text-align:center">
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWhtaG9odmV5bTRsdnQzMnN2MjhramZid2IzaGZkamJ1aGtxZmtpZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wxgVS7rGxYJqWTr8Yv/giphy.gif" style="width:200px;">
+</div>
+<aside class="notes">
+<p>Now our arms and rewards, imagine this, you are in a love is blind pod trying to find friends that vibe with you by pushing the walls of your pod so that you have a big enough wall and have a majority of friends in your wall vibing with you.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ## What is our reward
+
+*Formally* the reward can be defined as follows,
+
+$$
 \begin{equation}
 R(\mathcal{A}) =
     \begin{cases}
-        \text{Prec}(\mathcal{A}) + \text{cov}(\mathcal{A})^2 &amp; \text{if } \text{Prec}(\mathcal{A}) \in \mathbb{R} \\
-        \text{Penalty} &amp; \text{if } \text{Prec}(\mathcal{A}) &lt; 0.6
+        \text{Prec}(\mathcal{A}) + \text{cov}(\mathcal{A})^2 & \text{if } \text{Prec}(\mathcal{A}) \in \mathbb{R} \\
+        \text{Penalty} & \text{if } \text{Prec}(\mathcal{A}) < 0.6 
     \end{cases}
 \end{equation}
-\]</span></p>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Simply put,</strong></p>
-</div>
-<div class="callout-content">
-<p>We are going to be rewarded more for covering more ground while also being precise, and we are going to be punished if we push the walls into areas with weird precision values</p>
-</div>
-</div>
-</div>
+$$
+
+:::{.callout-important}
+## Simply put,
+We are going to be rewarded more for covering more ground while also being precise, and we are going to be punished if we push the walls into areas with weird precision values
+::: -->
 </section>
-<section id="visualizing-the-way-anchors-are-built" class="slide level2 smaller">
+<section id="visualizing-the-way-anchors-are-built" class="slide level2">
 <h2>Visualizing the way Anchors are built</h2>
-<p>Let’s visualize how a multi armed bandit solution will try to find possible boundaries in two dimensional space for a given instance.</p>
-<div class="fragment">
+<div>
 <ul>
-<li>Watch as our solution navigates a 2D space, seeking boundaries.</li>
-<li>Observe the agent’s journey through precision and coverage, trying to uncover the optimal solution.</li>
-<li>Compare the agent on different instances side-by-side</li>
+<li class="fragment">Watch as our multi armed bandit solution makes a boundary box in a 2D space, seeking similar points.</li>
+<li class="fragment">Observe the agent’s journey through precision and coverage, trying to uncover the optimal solution.</li>
+<li class="fragment">Compare the agent on different instances</li>
 </ul>
 </div>
+<aside class="notes">
+<p>Let’s see this in action i want you to look closely at the next slide you will see an animation of box growing and trying to capture the similar points and watch how the precision and coverage changes.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="demonstration" class="slide level2 smaller">
-<h2>Demonstration</h2>
-<ul>
-<li>On the right is the boundary in the data space</li>
-<li>On the left the precision (x-axis) and coverage (y-axis) of the boundary is shown in bright red while the pink dots are the previously explored boundaries.</li>
-</ul>
-<div class="columns">
-<div class="column" style="width:50%;">
+<section class="slide level2">
+
 <p style="text-align:center">
-<img src="imgs/n_dim_state_plot_1.gif" style="width:90%">
+<img src="imgs/n_dim_state_plot_2.gif">
 </p>
-<p class="text-align:center">
-</p><h4>
-Instance 1
-</h4>
-<p></p>
-</div><div class="column" style="width:50%;">
 <p style="text-align:center">
-<img src="imgs/n_dim_state_plot_1.gif" style="width:90%">
+<span style="font-size: 2rem; font-weight: bold; color: #5A31C1"> Instance 1 (Purple) </span>
 </p>
-<p class="text-align:center">
-</p><h4>
-Instance 2
-</h4>
-<p></p>
-</div>
-</div>
+</section>
+<section class="slide level2">
+
+<p style="text-align:center">
+<img src="imgs/n_dim_state_plot_2_2.gif">
+</p>
+<p style="text-align:center">
+<span style="font-size: 2rem; font-weight: bold; color: #FFB200"> Instance 2 (Yellow) </span>
+</p>
+<aside class="notes">
+<p>On the right is the boundary in the data space On the left the precision (x-axis) and coverage (y-axis) of the boundary is shown in bright red while the pink dots are the previously explored boundaries.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="what-did-we-just-observe" class="slide level2 smaller">
 <h2>What did we just observe</h2>
@@ -586,6 +711,19 @@ Instance 2
 <li>Red class predictions → Upper left quadrant</li>
 </ul></li>
 </ul>
+<aside class="notes">
+<p>So what did we see? The algorithm was able to understand the overall direction of red and blue points and in a practical setting we can use multiple points which the model is uncertain about to get an idea about the models decision boundary</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <div class="fragment">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -605,16 +743,27 @@ Instance 2
 <section>
 <section id="applying-xai-to-bushfire-modeling" class="title-slide slide level1 center">
 <h1>Applying XAI to bushfire modeling</h1>
-
+<aside class="notes">
+<p>So now to the piece de resistance Bushfires and xai.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="why-bushfires" class="slide level2 smaller">
+<section id="why-bushfires" class="slide level2">
 <h2>Why bushfires?</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <ul>
-<li><p>The Australian bushfires, notably during the 2019/2020 season, have emerged as a significant global concern, showcasing the escalating threat of climate change.</p></li>
-<li><p>As bushfire ignitions become more frequent and intense even during the present year, building models to predict where the next fire is going to ignite is not enough.</p></li>
-<li><p>By obtaining explanations from the model we can generate new insights into the key features and patterns to monitor to detect bushfires.</p></li>
+<li><p>The Australian bushfires, notably during the 2019/2020 season, was devastating to animals and humans alike.</p></li>
+<li><p>Objective : <span class="accent-color" style="font-weight:bold"> Build a model that can predict the cause of a possible bushfire and use explainable AI to uncover the decision process of the model </span></p></li>
 </ul>
 </div><div class="column" style="width:30%;">
 <p>
@@ -622,29 +771,38 @@ Instance 2
 </p>
 </div>
 </div>
+<aside class="notes">
+<p>Some of you may remember the black summer of 2019/20 where an area larger than spain got burned down because of bushfires.</p>
+<p>And if we can build models that are close to approximating the causes of bushfires then we can xai to understand the different weather and human conditions that black box models understand are the reasons for different bushfire causes</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="bushfire-ignition-data" class="slide level2 smaller">
+<section id="bushfire-ignition-data" class="slide level2">
 <h2>Bushfire ignition data</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Source: Department of Energy, Environment, and Climate Action</li>
 <li>Data Period: 2000-2021</li>
 <li>Data Type: Historic records of Victoria bushfires</li>
-<li>Collection Method: 000 calls and crew reports</li>
-<li>Objective : <span class="accent-color" style="font-weight:bold"> Build a model that can predict the cause of a possible bushfire and use explainable AI to uncover the decision process of the model </span></li>
-</ul>
-</div><div class="column" style="width:50%;">
-<ul>
 <li>Observation Content:
 <ul>
 <li>Location</li>
 <li>Date</li>
 <li>Descriptive label of fire cause</li>
 </ul></li>
-<li>Label Refinement:
+</ul>
+</div><div class="column" style="width:50%;">
 <ul>
-<li>Refinement to 6 distinct causes:
+<li>Label Refinement to 6 distinct causes:
 <ul>
 <li>Accidents</li>
 <li>Arson</li>
@@ -653,10 +811,22 @@ Instance 2
 <li>Lightning</li>
 <li>Other</li>
 </ul></li>
-</ul></li>
 </ul>
 </div>
 </div>
+<aside class="notes">
+<p>So let’s go out and collect data to build a model, we’re focusing on the state of Victoria in Australia and our predictor variable is going to be the causes of bushfire ignitions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="gathering-predictors" class="slide level2">
 <h2>Gathering predictors</h2>
@@ -670,6 +840,19 @@ Instance 2
 </ul></li>
 <li>The distance to the nearest powerline for each bushfire ignition was also collected</li>
 </ul>
+<aside class="notes">
+<p>Now let’s gather some predictors, we can get a weather data for each past bushfire ignition and then we can also get some human interventions such as the distance to the nearest powerline.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="fitting-the-model" class="slide level2">
 <h2>Fitting the model</h2>
@@ -679,7 +862,7 @@ Instance 2
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>The problem statement is,</strong></p>
+<p><strong>The problem is,</strong></p>
 </div>
 <div class="callout-content">
 <p>Given the location, the date, the weather and human activity data, predict the most likely cause for a bushfire.</p>
@@ -688,95 +871,271 @@ Instance 2
 </div>
 <div class="fragment">
 <p>As a baseline model, A Random forest model was fitted on a training set from 2000 to 2020 while the testing set contained data from 2021 to 2022 with an F1 score on the testing dataset of 0.83.</p>
+<aside class="notes">
+<p>Now let’s fit the model, given the location and the date and the weather and human conditions we want to predict the cause of a bushfire in a specific place, and we build a model that is fairly okay for the moment.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </div>
 </section>
-<section id="how-can-xai-help-in-this-scenario" class="slide level2 smaller">
+<section id="how-can-xai-help-in-this-scenario" class="slide level2">
 <h2>How can XAI help in this scenario?</h2>
 <ul>
-<li>From the two possible methods, local interpretability methods (which explains the decision process of one instance) are more useful in this setting</li>
+<li><span class="accent-color">Local interpretability methods </span> are more useful in this setting</li>
+<li><span class="accent-color"> LIME </span> can tell you, the importance of the features for a predicted bushfire cause</li>
+<li><span class="accent-color"> Counterfactuals </span> can tell you, the feature value configuration that will give a different prediction</li>
+<li><span class="accent-color"> Anchors </span> can tell you, the decision rule for the predicted cause.</li>
 </ul>
-<p>Given a models prediction of a bushfire cause for a given instance,</p>
+<aside class="notes">
+<p>How can xai help? Remember the three musketeers of local methods well we can use them to get different perspectives, lime will tell you “Which of the weather and human features were important in making this decision” counterfactuals will tell you How should the weather and human factors be changed for this bushfire to be caused by another cause and anchors will tell you this What are the weather and human value ranges that the model considered for this instance and other instances with the same predicted cause</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="visualizing-explanations" class="slide level2">
+<h2>Visualizing Explanations</h2>
+<p>The easiest to explain is <span class="accent-color"> Anchors </span>, which gives explanations that are high dimensional.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p style="text-align: center">
+<span style="font-size: 3rem; font-weight: bold"> Challenges </span>
+</p>
 <div>
 <ul>
-<li class="fragment"><span class="accent-color"> LIME </span> can tell you, Which of the weather and human features were important in making this decision</li>
-<li class="fragment"><span class="accent-color"> Counterfactuals </span> can tell you, How should the weather and human factors be changed for this bushfire to be caused by another cause (according to the model’s understanding)</li>
-<li class="fragment"><span class="accent-color"> Anchors </span> can tell you, What are the weather and human value ranges that the model considered for this instance and other instances with the same predicted cause</li>
+<li class="fragment">Data can be noisy</li>
+<li class="fragment">Model boundaries can be hard to see clearly</li>
 </ul>
 </div>
-</section>
-<section id="visualizing-explanations" class="slide level2 smaller">
-<h2>Visualizing Explanations</h2>
-<p>Each XAI method will give explanations which are inherently high dimensional as the model takes a lot of features to make predictors.</p>
-<p>The easiest to explain is anchors, which can given the decision rule that the model used to predict for the given instance and other similar instances.</p>
-<div class="fragment">
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="challenges">Challenges</h3>
-<ul>
-<li>Showing lower and upper bounds for multiple variables in a holistic manner is difficult as the data can be quite noisy</li>
-<li>Visualizing the model in data space and the boundary box given by anchor in high dimensional can be visually noisy to visualize.</li>
-</ul>
 </div><div class="column" style="width:50%;">
-<h3 id="possibilities">Possibilities</h3>
-<ul>
-<li>Using grand tours to give an overall view of how the different variables interact in a high dimensional view</li>
-<li>Providing interactive controls for the user to tap into the model in data space and explore the decision boundary.</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section id="visualizing-anchors" class="slide level2 smaller">
-<h2>Visualizing anchors</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p style="text-align:center">
-<img src="imgs/box_model.gif">
+<p style="text-align: center">
+<span style="font-size: 3rem; font-weight: bold">Possibilities</span>
 </p>
-<h4 id="the-discovered-anchor-and-the-class-labels">The discovered anchor and the class labels</h4>
-</div><div class="column" style="width:50%;">
-<p>Let’s take the fitted bushfire model and use it to generate a likely decision boundary for a randomly selected lightning prediction.</p>
-<p>Here the blue dots refer to the instances with the prediction lightning and the red dots are the instances that do not have lightning as a prediction.</p>
+<div>
+<ul>
+<li class="fragment">Use tours to explore the data globally and locally</li>
+<li class="fragment">Use projected scatterplot matrices to find variables with high impact</li>
+</ul>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>can we look at anchors in a visual way similar to the way we saw in the animation? Well yes but no. There are some challenges like data being noisy and the bounding box being hard to see but there are some possibilities like grand tours and interactivity helping us bring the model and users closer to each other</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="visualizing-anchors-for-bushfires" class="slide level2 center">
+<h2>Visualizing anchors for bushfires</h2>
+<p style="text-align:center">
+<img src="imgs/bushfire_test.gif" style="width:45%">
+</p>
+<p><span class="accent-color" style="font-size:1.5rem">It’s hard to see a pattern in this, as the data is noisy!</span></p>
+<aside class="notes">
+<p>Let’s take the fitted bushfire model, for simplicity we have divided the bushfire causes to lightning vs not lightning and use it to generate a likely decision boundary for a randomly selected lightning prediction. We are going to focus only on the weather data minimum and maximum temperature, sunlight radiation and rainfall.</p>
+<p>Here the golden dots refer to the instances with the prediction lightning and the purple dots are the instances that do not have lightning as a prediction.</p>
+<p>So here I’m using the tours method of looking at high dimensional data, to put it simply its as if you have a funny looking high dimensional shape and you put a light infront and see how the shadow changes as you move the funny shape around.</p>
+<p>It’s quite noisy! Let’s focus on something a bit more simpler and familiar, like the palmerpenguins data but with just Adelie and Chinstrap penguin species.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="visualizing-anchors-with-penguins" class="slide level2 center">
+<h2>Visualizing anchors with penguins</h2>
+<p style="text-align:center">
+<img src="imgs/box_model.gif" style="width:45%;">
+</p>
+<p style="text-align:center">
+<span style="font-size: 1.5rem; font-weight: bold">The discovered anchor of 4 dimensions in a two dimensional space</span>
+</p>
+<aside class="notes">
+<p>Here the purple dots refer to the instances with the prediction Chinstrap and the golden dots are the instances that are predicted as Adelie.</p>
+<p>It’s a bit more clearer on the rough direction that the anchors is looking at.</p>
 <p>Let’s zoom in to the box and inspect it’s contents.</p>
-</div>
-</div>
+<p>So here I’m using the tours method of looking at high dimensional data, to put it simply its as if you have a funny looking high dimensional shape and you put a light infront and see how the shadow changes as you move the funny shape around.</p>
+<p>So for a single point we can see the box is close to around the point, which is one of the issues of having an overall view because it’s limiting</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section class="slide level2">
 
 <div class="columns">
 <div class="column" style="width:50%;">
 <p style="text-align:center">
-<img src="imgs/inside_box_model.gif">
+<img src="imgs/inside_box_model.gif" style="width: 80%">
 </p>
 <h4 id="local-view">Local View</h4>
-<p><em>A majority of the points in the box are lightning predictions</em></p>
+<p style="line-height:0.8;">
+<span style="font-size: 1.5rem"> Can you notice a clear separation and a majority of points being gold? </span>
+</p>
 </div><div class="column" style="width:50%;">
 <p style="text-align:center">
-<img src="imgs/box_scatmat.gif">
+<img src="imgs/box_scatmat.gif" style="width:80%">
 </p>
 <h4 id="pairwise-view">Pairwise view</h4>
-<p><em>There are clear clusters in the bivariate relationships indicating that there are relationships between the variables that would be heavily influential in building a model boundary.</em></p>
+<p style="line-height:0.8;">
+<span style="font-size: 1.5rem">It’s hard to see which variable has a higher impact on the boundary box!</span>
+</p>
 </div>
 </div>
+<aside class="notes">
+<p>Maybe if we look closely and see how the points are changing inside box and how pairs of plots change we can see …</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="conclusions" class="slide level2">
-<h2>Conclusions</h2>
+<section id="contributions-and-future-work" class="slide level2 center">
+<h2>Contributions and Future work</h2>
 <div>
 <ul>
-<li class="fragment">XAI is a growing field that is gaining continued development</li>
-<li class="fragment">XAI methods can be divided into local or global methods based on the data that they explain</li>
-<li class="fragment">LIME, Counterfactuals, and Anchors are interesting local methods</li>
-<li class="fragment">Anchors can give easy to understand decision rules in the form of upper and lower boundaries</li>
-<li class="fragment">Visualizing these explanations can be hard but there are promising results to advance forward.</li>
+<li class="fragment">I was able to simplify and explain how anchors works to bring XAI tools closer to data scientists</li>
+<li class="fragment">I was able to apply high dimensional visualization techniques for anchors and see the possible insights and limitations</li>
+<li class="fragment"><span class="accent-color" style="font-style:italic"> I’ll be working on visualizations to understand and explain counterfactuals better </span></li>
+<li class="fragment"><span class="accent-color" style="font-style:italic"> I’ll be applying counterfactuals and anchors on bushfire modeling to understand the insights from black box models. </span></li>
 </ul>
 </div>
-</section></section>
-<section id="thank-you" class="title-slide slide level1 center">
-<h1>Thank you!</h1>
-<div class="footer footer-default">
+<aside class="notes">
 
-</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
+<section id="thank-you" class="slide level2 center">
+<h2>Thank you!</h2>
+<p>Have any suggestions or ideas? <i class="fa-solid fa-comment" aria-label="comment"></i></p>
+<div class="card-container">
+  <div class="card">
+    <div class="card-text">
+      <div class="portada">
+      </div>
+      <div class="title-total"> 
+        <div class="img-container">
+          <div class="img-avatar">
+            <img src="../imgs/profile_picture.jpeg ">
+          </div>
+        </div>
+        <h4>Janith Wanniarachchi</h4>
+        <div class="desc">
+          <div>
+            <span> <i class="fa-regular fa-envelope fa-sm"></i> </span> 
+            <span class="contact-detail"> janith.wanniarachchi@monash.edu </span>
+          </div>
+          <div>
+            <span> <i class="fa-brands fa-github-alt fa-sm"></i> </span>
+            <span class="contact-detail"> @janithwanni </span>
+          </div>
+          <div>
+            <span> <i class="fa-brands fa-linkedin"></i></span>
+            <span class="contact-detail"> janith-wanniarachchi </span>
+          </div>
+          <div>
+            <span> <i class="fa-solid fa-globe fa-sm"></i> </span>
+            <span class="contact-detail"> janithwanni.netlify.app </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class = "card-container">
+  <div class = "left-banner">
+    <img src = "imgs/banner-image.jpg" />
+  </div>
+  <div class = "right-banner">
+    <div class = "mid-image-container">
+      <div class = "mid-image">
+        <img src = "imgs/profile_picture.jpeg" />
+      </div>
+    </div>
+    <h6> Janith Wanniarachchi </h6>
+    <div>
+      <span> <i class="fa-regular fa-envelope fa-sm"></i> </span> 
+      <span class = "contact-detail"> janith.wanniarachchi@monash.edu </span>
+    </div>
+    <div>
+      <span> <i class="fa-brands fa-github-alt fa-sm"></i> </span>
+      <span class = "contact-detail"> @janithwanni </span>
+    </div>
+    <div>
+      <span> <i class = "fa-solid fa-globe fa-sm"></i> </span>
+      <span class = "contact-detail"> janithwanni.netlfiy.app </span>
+    </div>
+  </div>
+</div> -->
+<!-- <div class="">
+  <div>
+    <span> <i class="fa-regular fa-envelope"></i> </span> 
+    <span> janith.wanniarachchi@monash.edu </span>
+  </div>
+  <div>
+    <span> <i class="fa-brands fa-github-alt"></i> </span>
+    <span> @janithwanni </span>
+  </div>
+  <div>
+    <span> <i class = "fa-solid fa-globe"></i> </span>
+    <span> janithwanni.netlfiy.app </span>
+  </div>
+</div> -->
+<div class="footer footer-default">
+<p>janithwanni.quarto.pub/seeing-the-smoke-before-the-fire</p>
+</div>
+</section></section>
     </div>
   </div>
 
