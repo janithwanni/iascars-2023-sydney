@@ -56,10 +56,15 @@ $accent-color: $light-red;
 
 .reveal .progress {
   color: $light-red !important;
+  height: 7px;
 }
 
 .reveal .slide-number {
   color: $smoke-gray !important;
+}
+
+.reveal .slide-logo {
+  max-height: 4.2rem !important;
 }
 
 .center {
@@ -92,6 +97,14 @@ $accent-color: $light-red;
 
 .accent-color {
   color: $accent-color;
+}
+
+.purple-color {
+  color: #5A31C1;
+}
+
+.golden-color {
+  color: #FFB200;
 }
 
 .light-mode {
@@ -189,7 +202,7 @@ path {
   height: 100%;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  background-image: url("/imgs/banner-image.jpg");
+  background-image: url("https://images.unsplash.com/photo-1509114397022-ed747cca3f65");
   background-position: bottom center;
   background-size: cover;
 }

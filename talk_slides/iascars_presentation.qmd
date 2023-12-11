@@ -2,8 +2,12 @@
 format:
   revealjs:
     footer: "janithwanni.quarto.pub/seeing-the-smoke-before-the-fire"
+    logo: imgs/slide-url-qr.png
     theme: [default, iascars_presentation_theme.scss]
     slide-number: true
+    resources:
+      - imgs/profile_picture.jpeg
+      - imgs/banner-image.jpg
 ---
 
 ## {#seeing-the-smoke-before-the-fire data-menu-title="Seeing the smoke before the fire"}
@@ -298,8 +302,8 @@ On the left the precision (x-axis) and coverage (y-axis) of the boundary is show
 ## What did we just observe {.smaller}
 
 * The direction of the boundary box tells us the direction of the decision boundary
-    * Blue class predictions → Lower right quadrant
-    * Red class predictions → Upper left quadrant
+    * Golden class predictions → Lower right quadrant
+    * Purple class predictions → Upper left quadrant
 
 ::: {.notes}
 So what did we see? 
@@ -421,7 +425,7 @@ Remember the three musketeers of local methods well we can use them to get diffe
 The easiest to explain is <span class = "accent-color"> Anchors </span>, which gives explanations that are high dimensional.
 
 ::::{.columns}
-:::{.column width=50%}
+:::{.column width=40%}
 
 <p style = "text-align: center"><span style = "font-size: 3rem; font-weight: bold"> Challenges </span></p>
 
@@ -441,7 +445,7 @@ The easiest to explain is <span class = "accent-color"> Anchors </span>, which g
 :::{.incremental}
 
 * Use tours to explore the data globally and locally
-* Use projected scatterplot matrices to find variables with high impact
+* Use interactivity to link high dimensional visualizations together.
 
 :::
 
@@ -474,7 +478,7 @@ It's quite noisy! Let's focus on something a bit more simpler and familiar, like
 
 <p style="text-align:center"><img src = "imgs/box_model.gif" style = "width:45%;"/></p>
 
-<p style="text-align:center"><span style = "font-size: 1.5rem; font-weight: bold">The discovered anchor of 4 dimensions in a two dimensional space</span></p>
+<p style="text-align:center"><span style = "font-size: 1.5rem; font-weight: bold">The discovered anchor of 4 dimensions in a two dimensional space. <br/> <span class="purple-color"> Purple </span> dots refer to the <span class = "purple-color">Chinstrap</span> species while the <span class="golden-color">golden</span> dots refer to the <span class = "golden-color">Adelie</span> species. </span></p>
 
 ::: {.notes}
 
@@ -489,42 +493,25 @@ So here I’m using the tours method of looking at high dimensional data, to put
 So for a single point we can see the box is close to around the point, which is one of the issues of having an overall view because it’s limiting
 :::
 
----
+## Local View {.center .smaller}
 
-::::{.columns}
-:::{.column width=50%}
-
-<p style="text-align:center"><img src = "imgs/inside_box_model.gif" style="width: 80%"/></p>
-
-
-#### Local View
+<p style="text-align:center"><img src = "imgs/inside_box_model.gif" style="width: 40%"/></p>
 
 <p style="line-height:0.8;"><span style = "font-size: 1.5rem"> Can you notice a clear separation and a majority of points being gold? </span> </p>
 
-:::
-
-:::{.column width=50%}
-
-<p style="text-align:center"><img src = "imgs/box_scatmat.gif" style="width:80%"/></p>
-
-#### Pairwise view
-
-<p style="line-height:0.8;"><span style = "font-size: 1.5rem">It's hard to see which variable has a higher impact on the boundary box!</span></p>
-
-:::
-::::
 
 ::: {.notes}
 Maybe if we look closely and see how the points are changing inside box and how pairs of plots change we can see ...
 :::
 
-## Contributions and Future work {.center}
+## Contributions and Future work {.center .smaller}
 
 :::{.incremental}
-- I was able to simplify and explain how anchors works to bring XAI tools closer to data scientists
-- I was able to apply high dimensional visualization techniques for anchors and see the possible insights and limitations
-- <span class = "accent-color" style = "font-style:italic"> I'll be working on visualizations to understand and explain counterfactuals better </span>
-- <span class = "accent-color" style = "font-style:italic"> I'll be applying counterfactuals and anchors on bushfire modeling to understand the insights from black box models. </span>
+- This talk showed how to simplify and explain how anchors works to bring XAI tools closer to data scientists
+- This talk showed how to apply high dimensional visualization techniques for anchors and see the possible insights and limitations
+- <span class = "accent-color" style = "font-style:italic"> I'll be working on exploring high dimensional visualizations of counterfactuals for model explanation </span>
+- <span class = "accent-color" style = "font-style:italic"> I'll be applying this work to bushfire modeling </span>
+- <span class = "purple-color" style = "font-style:italic; font-weight: bold"> These are a few proposed ideas to visualize explanations in high dimensions but it needs a lot more work to make the visualization help us understand the explanations. So stay tuned!</span>
 :::
 
 ::: {.notes}
@@ -540,11 +527,12 @@ Have any suggestions or ideas? {{< fa comment >}}
   <div class="card">
     <div class="card-text">
       <div class="portada">
+        <img src = "imgs/banner-image.jpg" style = "display:none" /> 
       </div>
       <div class="title-total"> 
         <div class = "img-container">
           <div class = "img-avatar">
-            <img src = "../imgs/profile_picture.jpeg "/>
+            <img src = "imgs/profile_picture.jpeg "/>
           </div>
         </div>
         <h4>Janith Wanniarachchi</h4>

@@ -707,8 +707,8 @@ We are going to be rewarded more for covering more ground while also being preci
 <ul>
 <li>The direction of the boundary box tells us the direction of the decision boundary
 <ul>
-<li>Blue class predictions → Lower right quadrant</li>
-<li>Red class predictions → Upper left quadrant</li>
+<li>Golden class predictions → Lower right quadrant</li>
+<li>Purple class predictions → Upper left quadrant</li>
 </ul></li>
 </ul>
 <aside class="notes">
@@ -912,7 +912,7 @@ We are going to be rewarded more for covering more ground while also being preci
 <h2>Visualizing Explanations</h2>
 <p>The easiest to explain is <span class="accent-color"> Anchors </span>, which gives explanations that are high dimensional.</p>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:40%;">
 <p style="text-align: center">
 <span style="font-size: 3rem; font-weight: bold"> Challenges </span>
 </p>
@@ -929,7 +929,7 @@ We are going to be rewarded more for covering more ground while also being preci
 <div>
 <ul>
 <li class="fragment">Use tours to explore the data globally and locally</li>
-<li class="fragment">Use projected scatterplot matrices to find variables with high impact</li>
+<li class="fragment">Use interactivity to link high dimensional visualizations together.</li>
 </ul>
 </div>
 </div>
@@ -977,7 +977,7 @@ We are going to be rewarded more for covering more ground while also being preci
 <img src="imgs/box_model.gif" style="width:45%;">
 </p>
 <p style="text-align:center">
-<span style="font-size: 1.5rem; font-weight: bold">The discovered anchor of 4 dimensions in a two dimensional space</span>
+<span style="font-size: 1.5rem; font-weight: bold">The discovered anchor of 4 dimensions in a two dimensional space. <br> <span class="purple-color"> Purple </span> dots refer to the <span class="purple-color">Chinstrap</span> species while the <span class="golden-color">golden</span> dots refer to the <span class="golden-color">Adelie</span> species. </span>
 </p>
 <aside class="notes">
 <p>Here the purple dots refer to the instances with the prediction Chinstrap and the golden dots are the instances that are predicted as Adelie.</p>
@@ -997,27 +997,14 @@ We are going to be rewarded more for covering more ground while also being preci
           display:block!important;
       }</style></aside>
 </section>
-<section class="slide level2">
-
-<div class="columns">
-<div class="column" style="width:50%;">
+<section id="local-view" class="slide level2 center smaller">
+<h2>Local View</h2>
 <p style="text-align:center">
-<img src="imgs/inside_box_model.gif" style="width: 80%">
+<img src="imgs/inside_box_model.gif" style="width: 40%">
 </p>
-<h4 id="local-view">Local View</h4>
 <p style="line-height:0.8;">
 <span style="font-size: 1.5rem"> Can you notice a clear separation and a majority of points being gold? </span>
 </p>
-</div><div class="column" style="width:50%;">
-<p style="text-align:center">
-<img src="imgs/box_scatmat.gif" style="width:80%">
-</p>
-<h4 id="pairwise-view">Pairwise view</h4>
-<p style="line-height:0.8;">
-<span style="font-size: 1.5rem">It’s hard to see which variable has a higher impact on the boundary box!</span>
-</p>
-</div>
-</div>
 <aside class="notes">
 <p>Maybe if we look closely and see how the points are changing inside box and how pairs of plots change we can see …</p>
 <style type="text/css">
@@ -1032,14 +1019,15 @@ We are going to be rewarded more for covering more ground while also being preci
           display:block!important;
       }</style></aside>
 </section>
-<section id="contributions-and-future-work" class="slide level2 center">
+<section id="contributions-and-future-work" class="slide level2 center smaller">
 <h2>Contributions and Future work</h2>
 <div>
 <ul>
-<li class="fragment">I was able to simplify and explain how anchors works to bring XAI tools closer to data scientists</li>
-<li class="fragment">I was able to apply high dimensional visualization techniques for anchors and see the possible insights and limitations</li>
-<li class="fragment"><span class="accent-color" style="font-style:italic"> I’ll be working on visualizations to understand and explain counterfactuals better </span></li>
-<li class="fragment"><span class="accent-color" style="font-style:italic"> I’ll be applying counterfactuals and anchors on bushfire modeling to understand the insights from black box models. </span></li>
+<li class="fragment">This talk showed how to simplify and explain how anchors works to bring XAI tools closer to data scientists</li>
+<li class="fragment">This talk showed how to apply high dimensional visualization techniques for anchors and see the possible insights and limitations</li>
+<li class="fragment"><span class="accent-color" style="font-style:italic"> I’ll be working on exploring high dimensional visualizations of counterfactuals for model explanation </span></li>
+<li class="fragment"><span class="accent-color" style="font-style:italic"> I’ll be applying this work to bushfire modeling </span></li>
+<li class="fragment"><span class="purple-color" style="font-style:italic; font-weight: bold"> These are a few proposed ideas to visualize explanations in high dimensions but it needs a lot more work to make the visualization help us understand the explanations. So stay tuned!</span></li>
 </ul>
 </div>
 <aside class="notes">
@@ -1063,11 +1051,12 @@ We are going to be rewarded more for covering more ground while also being preci
   <div class="card">
     <div class="card-text">
       <div class="portada">
+        <img src="imgs/banner-image.jpg" style="display:none"> 
       </div>
       <div class="title-total"> 
         <div class="img-container">
           <div class="img-avatar">
-            <img src="../imgs/profile_picture.jpeg ">
+            <img src="imgs/profile_picture.jpeg ">
           </div>
         </div>
         <h4>Janith Wanniarachchi</h4>
@@ -1132,6 +1121,7 @@ We are going to be rewarded more for covering more ground while also being preci
     <span> janithwanni.netlfiy.app </span>
   </div>
 </div> -->
+<p><img src="imgs/slide-url-qr.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p>janithwanni.quarto.pub/seeing-the-smoke-before-the-fire</p>
 </div>
