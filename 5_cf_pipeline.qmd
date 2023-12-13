@@ -38,6 +38,8 @@ weather_data <- readRDS("weather_gridded_data.rds")
 min_power_dist <- readRDS("min_dist_data.rds")
 ```
 
+# TODO! Add Forest coverage data
+
 Categorization of causes
 
 1. lightning : 'LIGHTNING'
@@ -227,4 +229,12 @@ with_progress({
 
 ```{r}
 saveRDS(cf_vals, "cf_vals_attempt_3.rds")
+```
+
+
+```{r}
+library(anchors)
+explainer = anchors(training_data, rfmodel, target = "new_cause")
+
+explanations = explain(interest_points[1,], explainer)
 ```

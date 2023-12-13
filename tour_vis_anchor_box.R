@@ -23,14 +23,14 @@ neg_color <- "#C6D8FF"
 FRAME_WIDTH <- 600
 FRAME_HEIGHT <- 600
 point_color <- "#FF0000"
-not_point_color <- "#000000"
+not_point_color <- "#AAAAAA"
 
 fl <- train_data_tour |>
   mutate(disp_cls =
       ifelse(new_cause == "lightning",pos_cls_tag, neg_cls_tag)
   ) |>
   dplyr::select(disp_cls, air_tmax:rh_tmin)
-color_pal <- ifelse(fl$disp_cls == pos_cls_tag, pos_color, neg_color)
+
 set.seed(123)
 center_p <- train_data_tour[point_of_interest,] |> dplyr::select(air_tmax:rh_tmin)
 tiny_error <- abs(rnorm(1, sd = 4))
@@ -49,8 +49,41 @@ gcube <- geozoo::cube.iterate(p = ncol(sample_bounds))
 
 gcube$points <- sample_box
 
-sample_data <- rbind(gcube$points, fl |> dplyr::select(air_tmax:rh_tmin))
+sample_data <- rbind(
+  gcube$points,
+  fl |> dplyr::select(air_tmax:rh_tmin)
+)
 
+# highlight point in 3d space along with box
+pcv <- rep(not_point_color, nrow(fl))
+pcv[point_of_interest] <- point_color
+point_color_pal <- c(
+  rep("#FFFFFF", nrow(gcube$points)),
+  pcv
+)
+render_gif(
+  sample_data,
+  grand_tour(),
+  display_xy(
+    half_range = (sample_bounds |> unlist() |> max()) / 2,
+    edges = gcube$edges,
+    cex = 0.3,
+    col = point_color_pal,
+    edges.col = "#DDDDDD",
+    axes = "bottomleft",
+    edges.width = 0.8
+  ),
+  gif_file=here::here("talk_slides/imgs/point_box.gif"),
+  frames=500,
+  width=FRAME_WIDTH,
+  height=FRAME_HEIGHT,
+  loop=TRUE
+)
+
+color_pal <- c(
+  rep("#FFFFFF", nrow(gcube$points)),
+  ifelse(fl$disp_cls == pos_cls_tag, pos_color, neg_color)
+)
 render_gif(
   sample_data,
   grand_tour(),
